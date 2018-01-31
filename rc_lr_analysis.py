@@ -39,6 +39,30 @@ def loadBlock(subid,block_nr):
 	block=Block(matdata); #here, create Block object with dictionary of trial data in matdata
 	return block;
 
+#define a function to import all .mat data files for a given subject
+def loadAllBlocks(subid):
+    filenames = glob(datapath+'%s'%subid+'/'+'*_%s_[1-9].mat'%subid); #got to check that this regex works here
+    blocks = []; #empty list to hold loaded blocks
+    for filename in filenames:
+        matdata=loadmat(filename,struct_as_record=False,squeeze_me=True)['block'];
+        block=Block(matdata);
+        blocks.append(block);
+    return blocks #return the loaded blocks as a list for later purposes..
+
+#define functions to get subject specific blocks and aggregate blocks together for analysis, respectively
+def getAllSubjectBlocks():
+    blocks = [[] for i in range(len(ids))]; #create a list of empty lists to append the individual blocks to
+    for i,sub_id in enumerate(ids):
+        blocks[i] = loadAllBlocks(sub_id);
+        #print "Imported data for subject %s\n"%sub_id;
+    #print "Done getting all subject blocks..\n";
+    return blocks;
+
+def getTrials(all_blocks):
+    # segment the trials all together
+	trial_matrix = [[t for b in blocks for t in b.trials] for blocks in all_blocks];
+	print "Done getting trials together..\n"
+	return trial_matrix; #trial matrix will be a n by m, n is the number of trials for a subject and m is the number of subjects
 
 
 ## Data Structures ###############################################################################################################
