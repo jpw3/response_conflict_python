@@ -76,7 +76,7 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if id=='agg':
 						db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA
-
+			
 			#now run this same analysis looking at the number of similar response items in the display(e.g., the aggregation of trials with same shape as fifth distractor and the other same response)
 			#first collapse across the target shapes to look at only responses.. 
 			for resp in ['left','right']:
@@ -145,7 +145,7 @@ def analyzeDistShapeEffect(trial_matrix,id):
 			#do the above analysis separating out the different shapes
 			for shape,resp in zip([1,2,3,4],['left','right','left','right']):
 				for nr_matchdist in [2,3]:			
-					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)&(tee.fifth_distractor_match==0)] for ts in t_matrix];					
+					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
 					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean					
 					res_matrix = [[tee.result for tee in ts if(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
@@ -159,8 +159,7 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					db.sync();					
 					if id=='agg':					
 						db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
-					
+						db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');									
 					
 	db.sync();
 
