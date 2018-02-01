@@ -24,11 +24,86 @@ ids=['jpw'];
 
 ## Data Analysis Methods ####################################################################################################
 
+def analyzeDistShapeEffect(trial_matrix,id):
+	#trial_matrix should be a list of trials for each subjects
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	trials = [tee for person in trial_matrix for tee in person]; #collect all trials together in a single list
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through number of targets. Only do single targets for now
+		for nrt in [1]:
+			t = [tee for tee in trials if (tee.block_type==type)]; #segment the relevant trials
+			t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+			#now go through and separate trials where the 5th distractor's shape matched the target or not
+			for match_5thdist in [0,1]:
+				#first do this analysis collapsing across all 4 target shapes
+				all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.fifth_distractor_match==match_5thdist)] for ts in t_matrix];
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = [[tee.result for tee in ts if(tee.fifth_distractor_match==match_5thdist)] for ts in t_matrix];
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+				#compute and display the data 
+				db['%s_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,type,nrt,match_5thdist)]=mean(rts); db['%s_%s_%s_targets_%s_5thdmatch_var_rt'%(id,type,nrt,match_5thdist)]=var(rts); db['%s_%s_%s_targets_%s_5thdmatch_median_rt'%(id,type,nrt,match_5thdist)]=median(rts); 
+				db['%s_%s_%s_targets_%s_5thdmatch_pc'%(id,type,nrt,match_5thdist)]=pc(res);
+				print '%s %s %s nr of targets 5th dist match = %s rt: %3.2f'%(id,type,nrt,match_5thdist, mean(rts));
+				db.sync();
+				if id=='agg':
+					db['%s_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+					#append all the datae for each subject together in the dataframe for use in ANOVA
+					
+			#then run this separately for each unique target shape
+			for shape in [1,2,3,4]:
+				for match_5thdist in [0,1]:
+					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(tee.fifth_distractor_match==match_5thdist)&(tee.target_shapes[0]==shape)] for ts in t_matrix];
+					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+					res_matrix = [[tee.result for tee in ts if(tee.fifth_distractor_match==match_5thdist)&(tee.target_shapes[0]==shape)] for ts in t_matrix];
+					rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+					if len(rts)==0:
+						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)				
+					#compute and display the data 
+					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,type,nrt,shape,match_5thdist)]=mean(rts); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_var_rt'%(id,type,nrt,shape,match_5thdist)]=var(rts);
+					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_median_rt'%(id,type,nrt,shape,match_5thdist)]=median(rts); 
+					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,type,nrt,shape,match_5thdist)]=pc(res);
+					print '%s %s %s nr of targets target shape = %s 5th dist match = %s rt: %3.2f'%(id,type,nrt,shape,match_5thdist, mean(rts));
+					db.sync();
+					if id=='agg':
+						db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+						#append all the datae for each subject together in the dataframe for use in ANOVA
+
+					
+	db.sync();
 
 
+def compute_BS_SEM(data_matrix, type):
+    #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
+    #should only pass data matrix into this function after segmenting into relevant conditions
+	agg_data = [datum for person in data_matrix for datum in person]; #get all the data together
+	n = len(data_matrix);
+	if type=='time':
+		grand_mean = mean(agg_data);
+		matrix = [[dee for dee in datas] for datas in data_matrix]
+		err = [mean(d) for d in matrix if (len(d)>0)]-grand_mean;
+		squared_err = err**2;
+		MSE = sum(squared_err)/(n-1);
+	elif type=='result':
+		grand_pc = pc(agg_data);
+		matrix = [[dee for dee in datas] for datas in data_matrix]
+		err = [pc(d) for d in matrix if (len(d)>0)]-grand_pc;
+		squared_err = err**2;
+		MSE = sum(squared_err)/(n-1);
+	denom = sqrt(n);
+	standard_error_estimate=sqrt(MSE)/float(denom);
+	return standard_error_estimate;
 
 
-## Data Importation Functions
+## Data Importation Functions ################################################################################################
 
 #define a function to import individual .mat data files
 def loadBlock(subid,block_nr):
@@ -100,6 +175,11 @@ class Trial(object):
 		self.distractor_types = array([str(type) for type in trialData.dist_types]); #left or right
 		self.distractor_coors = trialData.dist_coors;
 		self.distractor_distances = trialData.distractor_distances;
+		#here, determine if the last distractor shape (5th distractor) matched the target if it's a single target trials
+		if self.nr_targets==2:
+			self.fifth_distractor_match = -1;
+		elif self.nr_targets==1:
+			self.fifth_distractor_match = self.target_shapes[0]==self.distractor_shapes[-1];
 		self.trial_times = trialData.trial_times
 		self.response_time = self.trial_times.response_time*1000; #ms
 		self.response = trialData.response;
