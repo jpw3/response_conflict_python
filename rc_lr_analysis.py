@@ -77,6 +77,71 @@ def analyzeDistShapeEffect(trial_matrix,id):
 						db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA
 
+			#now run this same analysis looking at the number of similar response items in the display(e.g., the aggregation of trials with same shape as fifth distractor and the other same response)
+			#first collapse across the target shapes to look at only responses.. 
+			for resp in ['left','right']:
+				for nr_matchdist in [2,3]:			
+					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)] for ts in t_matrix];
+					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean					
+					res_matrix = [[tee.result for tee in ts if(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)] for ts in t_matrix];
+					rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+					if len(rts)==0:
+						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
+					#compute and display the data 					
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					print '%s %s %s nr of targets resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt, resp, nr_matchdist, mean(rts));
+					db.sync();					
+					if id=='agg':					
+						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
+					
+			
+			#now pull it apart depending on the target shape
+			for shape,resp in zip([1,2,3,4],['left','right','left','right']):
+				for nr_matchdist in [2,3]:
+					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)] for ts in t_matrix];
+					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+					res_matrix = [[tee.result for tee in ts if(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)] for ts in t_matrix];
+					rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+					if len(rts)==0:
+						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
+					#compute and display the data 
+					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
+					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
+					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);
+					print '%s %s %s nr of targets target shape = %s resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt,shape, resp, nr_matchdist, mean(rts));
+					db.sync();
+					if id=='agg':					
+						db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
+						#append all the datae for each subject together in the dataframe for use in ANOVA					
+			
+			#last, determine whether the response associated with the target shape impacted RTs by taking out the trials where the5th distractor shape was the same as the target
+			#this might be the most important analysis
+			#first collapse across the target shapes to look at only responses.. 
+			for resp in ['left','right']:
+				for nr_matchdist in [2,3]:			
+					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
+					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean					
+					res_matrix = [[tee.result for tee in ts if(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
+					rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+					if len(rts)==0:
+						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
+					#compute and display the data 					
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					db.sync();					
+					if id=='agg':					
+						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');			
+			
+					
 					
 	db.sync();
 
