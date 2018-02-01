@@ -49,12 +49,12 @@ def analyzeDistShapeEffect(trial_matrix,id):
 				if len(rts)==0:
 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 				#compute and display the data 
-				db['%s_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,type,nrt,match_5thdist)]=mean(rts); db['%s_%s_%s_targets_%s_5thdmatch_var_rt'%(id,type,nrt,match_5thdist)]=var(rts); db['%s_%s_%s_targets_%s_5thdmatch_median_rt'%(id,type,nrt,match_5thdist)]=median(rts); 
-				db['%s_%s_%s_targets_%s_5thdmatch_pc'%(id,type,nrt,match_5thdist)]=pc(res);
+				db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,type,nrt,match_5thdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_5thdmatch_var_rt'%(id,type,nrt,match_5thdist)]=var(rts); db['%s_LR_%s_%s_targets_%s_5thdmatch_median_rt'%(id,type,nrt,match_5thdist)]=median(rts); 
+				db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,type,nrt,match_5thdist)]=pc(res);
 				print '%s %s %s nr of targets 5th dist match = %s rt: %3.2f'%(id,type,nrt,match_5thdist, mean(rts));
 				db.sync();
 				if id=='agg':
-					db['%s_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+					db['%s_LR_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_LR_%s_%s_targets_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					
 			#then run this separately for each unique target shape
@@ -68,13 +68,13 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)				
 					#compute and display the data 
-					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,type,nrt,shape,match_5thdist)]=mean(rts); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_var_rt'%(id,type,nrt,shape,match_5thdist)]=var(rts);
-					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_median_rt'%(id,type,nrt,shape,match_5thdist)]=median(rts); 
-					db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,type,nrt,shape,match_5thdist)]=pc(res);
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,type,nrt,shape,match_5thdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_var_rt'%(id,type,nrt,shape,match_5thdist)]=var(rts);
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_median_rt'%(id,type,nrt,shape,match_5thdist)]=median(rts); 
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,type,nrt,shape,match_5thdist)]=pc(res);
 					print '%s %s %s nr of targets target shape = %s 5th dist match = %s rt: %3.2f'%(id,type,nrt,shape,match_5thdist, mean(rts));
 					db.sync();
 					if id=='agg':
-						db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA
 			
 			#now run this same analysis looking at the number of similar response items in the display(e.g., the aggregation of trials with same shape as fifth distractor and the other same response)
@@ -89,14 +89,14 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 					
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
 					print '%s %s %s nr of targets resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt, resp, nr_matchdist, mean(rts));
 					db.sync();					
 					if id=='agg':					
-						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
+						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
 					
 			
 			#now pull it apart depending on the target shape
@@ -110,14 +110,14 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 
-					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
-					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
-					db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
+					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);
 					print '%s %s %s nr of targets target shape = %s resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt,shape, resp, nr_matchdist, mean(rts));
 					db.sync();
 					if id=='agg':					
-						db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA					
 			
 			#last, determine whether the response associated with the target shape impacted RTs by taking out the trials where the5th distractor shape was the same as the target
@@ -133,13 +133,13 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 					
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
-					db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
 					db.sync();					
 					if id=='agg':					
-						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
 						
 			
 			#do the above analysis separating out the different shapes
@@ -153,13 +153,13 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 					#compute and display the data 					
-					db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
-					db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
-					db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);					
+					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
+					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
+					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);					
 					db.sync();					
 					if id=='agg':					
-						db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');									
+						db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');									
 					
 	db.sync();
 
@@ -192,14 +192,14 @@ def compute_BS_SEM(data_matrix, type):
 def loadBlock(subid,block_nr):
 	#returns a single Block object corresponding to the block number and subject id
 	#block type should be a string corresponding to the task type(e.g. 'Discrim')
-	filename = glob(datapath+'%s'%subid+'/'+'*_%s_%d.mat'%(subid,block_nr)); #block_type,
+	filename = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_%d.mat'%(subid,block_nr)); #block_type,
 	matdata = loadmat(filename[0],struct_as_record=False,squeeze_me=True)['block']; #use scipy loadmat() to load in the files
 	block=Block(matdata); #here, create Block object with dictionary of trial data in matdata
 	return block;
 
 #define a function to import all .mat data files for a given subject
 def loadAllBlocks(subid):
-    filenames = glob(datapath+'%s'%subid+'/'+'*_%s_[1-9].mat'%subid); #got to check that this regex works here
+    filenames = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_[1-9].mat'%subid); #got to check that this regex works here
     blocks = []; #empty list to hold loaded blocks
     for filename in filenames:
         matdata=loadmat(filename,struct_as_record=False,squeeze_me=True)['block'];
