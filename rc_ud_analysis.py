@@ -1,4 +1,5 @@
 #Response Conflict Data Analysis code
+#Designed for the Up/Down response mapping version of the experiment
 #Author: James Wilmott, Winter 2018
 
 #Designed to import et_mt data and analyze it
@@ -12,13 +13,13 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/';
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/'; 
-savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/figures/';
+datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
-subject_data = shelve.open(shelvepath+'rc_data');
-individ_subject_data = shelve.open(shelvepath+'individ_rc_data');
+subject_data = shelve.open(shelvepath+'rc_ud_data');
+individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
 ids=['jpw'];
 
@@ -49,12 +50,12 @@ def analyzeDistShapeEffect(trial_matrix,id):
 				if len(rts)==0:
 					continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 				#compute and display the data 
-				db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,type,nrt,match_5thdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_5thdmatch_var_rt'%(id,type,nrt,match_5thdist)]=var(rts); db['%s_LR_%s_%s_targets_%s_5thdmatch_median_rt'%(id,type,nrt,match_5thdist)]=median(rts); 
-				db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,type,nrt,match_5thdist)]=pc(res);
+				db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,type,nrt,match_5thdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_5thdmatch_var_rt'%(id,type,nrt,match_5thdist)]=var(rts); db['%s_UD_%s_%s_targets_%s_5thdmatch_median_rt'%(id,type,nrt,match_5thdist)]=median(rts); 
+				db['%s_UD_%s_%s_targets_%s_5thdmatch_pc'%(id,type,nrt,match_5thdist)]=pc(res);
 				print '%s %s %s nr of targets 5th dist match = %s rt: %3.2f'%(id,type,nrt,match_5thdist, mean(rts));
 				db.sync();
 				if id=='agg':
-					db['%s_LR_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_LR_%s_%s_targets_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+					db['%s_UD_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_UD_%s_%s_targets_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 					#append all the datae for each subject together in the dataframe for use in ANOVA
 					
 			#then run this separately for each unique target shape
@@ -68,18 +69,18 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)				
 					#compute and display the data 
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,type,nrt,shape,match_5thdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_var_rt'%(id,type,nrt,shape,match_5thdist)]=var(rts);
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_median_rt'%(id,type,nrt,shape,match_5thdist)]=median(rts); 
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,type,nrt,shape,match_5thdist)]=pc(res);
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,type,nrt,shape,match_5thdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_var_rt'%(id,type,nrt,shape,match_5thdist)]=var(rts);
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_median_rt'%(id,type,nrt,shape,match_5thdist)]=median(rts); 
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,type,nrt,shape,match_5thdist)]=pc(res);
 					print '%s %s %s nr of targets target shape = %s 5th dist match = %s rt: %3.2f'%(id,type,nrt,shape,match_5thdist, mean(rts));
 					db.sync();
 					if id=='agg':
-						db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_rt_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(rt_matrix,'time'); db['%s_UD_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc_bs_sems'%(id,type,nrt,shape,match_5thdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA
 			
 			#now run this same analysis looking at the number of similar response items in the display(e.g., the aggregation of trials with same shape as fifth distractor and the other same response)
 			#first collapse across the target shapes to look at only responses.. 
-			for resp in ['left','right']:
+			for resp in ['up','down']:
 				for nr_matchdist in [2,3]:			
 					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)] for ts in t_matrix];
 					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
@@ -89,18 +90,18 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 					
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
 					print '%s %s %s nr of targets resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt, resp, nr_matchdist, mean(rts));
 					db.sync();					
 					if id=='agg':					
-						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
+						db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');					
 					
 			
 			#now pull it apart depending on the target shape
-			for shape,resp in zip([1,2,3,4],['left','right','left','right']):
+			for shape,resp in zip([1,2,3,4],['up','up','down','down']):
 				for nr_matchdist in [2,3]:
 					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)] for ts in t_matrix];
 					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
@@ -110,20 +111,20 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
-					db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
+					db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);
 					print '%s %s %s nr of targets target shape = %s resp = %s nr matching dists %s rt: %3.2f'%(id,type,nrt,shape, resp, nr_matchdist, mean(rts));
 					db.sync();
 					if id=='agg':					
-						db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_LR_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_UD_%s_%s_targets_%s_targetshape_%s_resp_%s_nrmatchdist_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
 						#append all the datae for each subject together in the dataframe for use in ANOVA					
 			
 			#last, determine whether the response associated with the target shape impacted RTs by taking out the trials where the5th distractor shape was the same as the target
 			#this might be the most important analysis
 			#first collapse across the target shapes to look at only responses.. 
-			for resp in ['left','right']:
+			for resp in ['up','down']:
 				for nr_matchdist in [2,3]:			
 					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_types[0]==resp)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
 					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
@@ -133,17 +134,17 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)					
 					#compute and display the data 					
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
-					db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,resp,nr_matchdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,resp,nr_matchdist)]=var(rts);				
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,resp,nr_matchdist)]=median(rts);
+					db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,resp,nr_matchdist)]=pc(res);					
 					db.sync();					
 					if id=='agg':					
-						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
+						db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_UD_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');
 						
 			
 			#do the above analysis separating out the different shapes
-			for shape,resp in zip([1,2,3,4],['left','right','left','right']):
+			for shape,resp in zip([1,2,3,4],['up','up','down','down']):
 				for nr_matchdist in [2,3]:			
 					all_rt_matrix = [[tee.response_time for tee in ts if(tee.result==1)&(sum([tee.distractor_types==resp])==nr_matchdist)&(tee.target_shapes[0]==shape)&(tee.fifth_distractor_match==0)] for ts in t_matrix];
 					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
@@ -153,13 +154,13 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					if len(rts)==0:
 						continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 					#compute and display the data 					
-					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
-					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
-					db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);					
+					db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=mean(rts); db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_var_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=var(rts);				
+					db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_median_rt'%(id,type,nrt,shape,resp,nr_matchdist)]=median(rts);
+					db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc'%(id,type,nrt,shape,resp,nr_matchdist)]=pc(res);					
 					db.sync();					
 					if id=='agg':					
-						db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
-						db['%s_LR_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');									
+						db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_rt_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(rt_matrix,'time');
+						db['%s_UD_%s_%s_targets_%s_shape_%s_resp_%s_nrmatchdist_5thdnotmatch_pc_bs_sems'%(id,type,nrt,shape,resp,nr_matchdist)] = compute_BS_SEM(res_matrix, 'pc');									
 					
 	db.sync();
 
@@ -192,14 +193,14 @@ def compute_BS_SEM(data_matrix, type):
 def loadBlock(subid,block_nr):
 	#returns a single Block object corresponding to the block number and subject id
 	#block type should be a string corresponding to the task type(e.g. 'Discrim')
-	filename = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_%d.mat'%(subid,block_nr)); #block_type,
+	filename = glob(datapath+'%s'%subid+'/'+'*_UD_*_%s_%d.mat'%(subid,block_nr)); #block_type,
 	matdata = loadmat(filename[0],struct_as_record=False,squeeze_me=True)['block']; #use scipy loadmat() to load in the files
 	block=Block(matdata); #here, create Block object with dictionary of trial data in matdata
 	return block;
 
 #define a function to import all .mat data files for a given subject
 def loadAllBlocks(subid):
-    filenames = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_[1-9].mat'%subid); #got to check that this regex works here
+    filenames = glob(datapath+'%s'%subid+'/'+'*_UD_*_%s_[1-9].mat'%subid); #got to check that this regex works here
     blocks = []; #empty list to hold loaded blocks
     for filename in filenames:
         matdata=loadmat(filename,struct_as_record=False,squeeze_me=True)['block'];
@@ -269,10 +270,3 @@ class Trial(object):
 		self.result = trialData.result;
 		self.selected_type = str(trialData.selected_type);
 		self.drift_shift = trialData.drift_shift;
-        
-        
-        
-        
-        
-        
-        
