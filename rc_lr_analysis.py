@@ -200,7 +200,6 @@ def computeCongruency(trial_matrix, id = 'agg'):
 		db=subject_data;
 	else:
 		db=individ_subject_data;	
-    #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
 	#run this analysis separatel for the bottom up and top down blocks
 	for type in ['b','t']: 
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
@@ -220,7 +219,40 @@ def computeCongruency(trial_matrix, id = 'agg'):
 			if id=='agg':
 				db['%s_LR_%s_2_targets_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time');
 				db['%s_LR_%s_2_targets_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix, 'pc');			
+	db.sync();
+	
+	
+def computeCongruencyForEachTrialType(trial_matrix, id = 'agg'):	
+	#computes the response and perceptual incongruence data for the two target trial, separated out individually for the trial types
+	#trial_matrix should be a list of trials for each subjects
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']:
+		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong		
+		for trial_types, name, specific_names in zip([(17,18,19,20),(21,22),(23,24,25,26)],['cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'],
+			[('both_top_left','both_top_right','both_bottom_left','both_bottom_right'),('both_top_responses','both_bottom_responses'),('top_left_bottom_left','top_left_bottom_right','top_right_bottom_left','top_right_bottom_right')]):
+			for tt, spec_trial in zip(trial_types,specific_names):
+				all_rt_matrix = [[tee.response_time for tee in ts if((tee.result==1)&(tee.nr_targets==2)&(tee.trial_type==tt))] for ts in t_matrix];				
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)];		
+				res_matrix = [[tee.result for tee in ts if((tee.nr_targets==2)&(tee.trial_type==tt))] for ts in t_matrix];
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+				db['%s_LR_%s_2_targets_%s_%s_mean_rt'%(id,type,name,spec_trial)]=mean(rts);	db['%s_LR_%s_2_targets_%s_%s_median_rt'%(id,type,name,spec_trial)]=median(rts);	db['%s_LR_%s_2_targets_%s_%s_var_rt'%(id,type,name,spec_trial)]=var(rts);
+				db['%s_LR_%s_2_targets_%s_%s_pc'%(id,type,name,spec_trial)]=pc(res);
+				print '%s %s %s %s = rt: %3.2f'%(id,type,name,spec_trial,mean(rts));					
+				db.sync();
+				if id=='agg':
+					db['%s_LR_%s_2_targets_%s_%s_rt_bs_sems'%(id,type,name,spec_trial)] = compute_BS_SEM(rt_matrix,'time');
+					db['%s_LR_%s_2_targets_%s_%s_pc_bs_sems'%(id,type,name,spec_trial)] = compute_BS_SEM(res_matrix, 'pc');				
 	db.sync();				
+				
 				
 
 def compute_BS_SEM(data_matrix, type):
