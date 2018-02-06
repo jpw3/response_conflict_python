@@ -185,6 +185,7 @@ def computeNT(trial_matrix, id='agg'):
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			db['%s_LR_%s_%s_targets_mean_rt'%(id,type,nrt)]=mean(rts);	db['%s_LR_%s_%s_targets_median_rt'%(id,type,nrt)]=median(rts);	db['%s_LR_%s_%s_targets_var_rt'%(id,type,nrt)]=var(rts);
 			db['%s_LR_%s_%s_targets_pc'%(id,type,nrt)]=pc(res);
+			print '%s %s %s nr of targets = rt: %3.2f'%(id,type,nrt,mean(rts));
 			db.sync();
 			if id=='agg':					
 				db['%s_LR_%s_%s_targets_rt_bs_sems'%(id,type,nrt)] = compute_BS_SEM(rt_matrix,'time');

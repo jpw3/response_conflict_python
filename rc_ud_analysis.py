@@ -13,9 +13,9 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
+savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/figures/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -164,6 +164,34 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					
 	db.sync();
 
+def computeNT(trial_matrix, id='agg'):
+	#trial_matrix should be a list of trials for each subjects
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+    #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through number of targets. Only do single targets for now
+		for nrt in [1,2]:
+			t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+			all_rt_matrix = [[tee.response_time for tee in ts if((tee.result==1)&(tee.nr_targets==nrt))] for ts in t_matrix];
+			ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
+			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==nrt)] for ts in t_matrix];
+			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+			if len(rts)==0:
+				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
+			db['%s_UD_%s_%s_targets_mean_rt'%(id,type,nrt)]=mean(rts);	db['%s_UD_%s_%s_targets_median_rt'%(id,type,nrt)]=median(rts);	db['%s_UD_%s_%s_targets_var_rt'%(id,type,nrt)]=var(rts);
+			db['%s_UD_%s_%s_targets_pc'%(id,type,nrt)]=pc(res);
+			print '%s %s %s nr of targets = rt: %3.2f'%(id,type,nrt,mean(rts));
+			db.sync();
+			if id=='agg':					
+				db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,type,nrt)] = compute_BS_SEM(rt_matrix,'time');
+				db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,type,nrt)] = compute_BS_SEM(res_matrix, 'pc');			
+	db.sync();	
 
 def compute_BS_SEM(data_matrix, type):
     #calculate the between-subjects standard error of the mean. data_matrix should be matrix of trials including each subject
