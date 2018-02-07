@@ -235,7 +235,7 @@ def computeCongruencyForEachTrialType(trial_matrix, id = 'agg'):
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong		
 		for trial_types, name, specific_names in zip([(17,18,19,20),(21,22),(23,24,25,26)],['cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'],
-			[('both_top_left','both_top_right','both_bottom_left','both_bottom_right'),('both_top_responses','both_bottom_responses'),('top_left_bottom_left','top_left_bottom_right','top_right_bottom_left','top_right_bottom_right')]):
+			[('both_top_left','both_top_right','both_bottom_left','both_bottom_right'),('both_left_responses','both_right_responses'),('top_left_top_right','top_left_bottom_right','bottom_left_top_right','bottom_left_bottom_right')]):
 			for tt, spec_trial in zip(trial_types,specific_names):
 				all_rt_matrix = [[tee.response_time for tee in ts if((tee.result==1)&(tee.nr_targets==2)&(tee.trial_type==tt))] for ts in t_matrix];				
 				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
