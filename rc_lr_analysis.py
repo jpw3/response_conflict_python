@@ -12,9 +12,9 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/';
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/'; 
-savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/figures/';
+datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_data');
@@ -290,7 +290,7 @@ def loadBlock(subid,block_nr):
 
 #define a function to import all .mat data files for a given subject
 def loadAllBlocks(subid):
-    filenames = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_[1-9].mat'%subid); #got to check that this regex works here
+    filenames = glob(datapath+'%s'%subid+'/'+'*_LR_*_%s_[1-9].mat'%subid); #got to check that this regex works here   +'/OldLRDatawithWrongCodes'
     blocks = []; #empty list to hold loaded blocks
     for filename in filenames:
         matdata=loadmat(filename,struct_as_record=False,squeeze_me=True)['block'];
