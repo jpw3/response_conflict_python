@@ -21,7 +21,7 @@ savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['jpw'];
+ids=['ud1']; #'jpw'
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -335,7 +335,7 @@ class Block(object):
 class Trial(object):
 	#object being passed into this Trial instance should be a dictionary corresponding to the trial data for this given trial
 	def __init__(self, trialData):
-		self.sub_id = trialData.sub_id;
+		self.sub_id = str(trialData.sub_id);
 		self.block_type = str(trialData.block_type); #b for bottom up, of t for top down
 		self.block_nr = trialData.block_nr;
 		self.trial_type = trialData.trial_type;
