@@ -46,8 +46,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Distractors With Matching Shapes,\n Single Target Trials,Left-Right Task, Subject %s'%id, size = 22);
 # #ax1 is the bottom up task plot
 # ax1.set_ylim(500,700); ax1.set_yticks(arange(550,701,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
-# ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax1.set_xticklabels(['2','3']); 
 # colors=['blue','red'];
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'b',1,0)],color=colors[0],width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'b',1,1)],color=colors[0],width=0.4);
@@ -59,8 +59,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 # #ax2 is the top-down task plot
 # ax2.set_ylim(500,700); ax2.set_yticks(arange(550,701,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
-# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,0)],color=colors[1],width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,1)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -91,8 +91,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Proportion Correct By Number of Distractors With Matching Shapes,\n Single Target Trials,Left-Right Task, Subject %s'%id, size = 22);
 # #ax1 is the bottom up task plot
 # ax1.set_ylim(0.8,1.0); ax1.set_yticks(arange(0.85,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
-# ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax1.set_xticklabels(['2','3']); 
 # colors=['blue','red'];
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,'b',1,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,'b',1,1)],color=colors[0], alpha = 0.6 ,width=0.4);
@@ -104,8 +104,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 # #ax2 is the top-down task plot
 # ax2.set_ylim(0.8,1.0); ax2.set_yticks(arange(0.85,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
-# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,'t',1,0)],color=colors[1], width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_5thdmatch_pc'%(id,'t',1,1)],color=colors[1], width=0.4);
 # if id=='agg':
@@ -139,7 +139,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax1 is the top left shape 
 # ax1.set_ylim(500,700); ax1.set_yticks(arange(550,701,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Target Shape TOP-LEFT', size = 18, position = (.5, 0.9));
 # #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_xticklabels(['2','3']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,1,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,1,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -151,7 +151,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax2 is the top right shape 
 # ax2.set_ylim(500,700); ax2.set_yticks(arange(550,701,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Target Shape TOP-RIGHT', size = 18, position = (.5, 0.9));
 # #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,2,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,2,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -162,8 +162,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the bottom left shape 
 # ax3.set_ylim(500,700); ax3.set_yticks(arange(550,701,50)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Target Shape BOTTOM-LEFT', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['1','2']); 
+# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['2','3']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,3,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,3,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -175,7 +175,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax4 is the bottom right shape 
 # ax4.set_ylim(500,700); ax4.set_yticks(arange(550,701,50)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Target Shape BOTTOM-RIGHT', size = 18, position = (.5, 0.9));
 # #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['1','2']); 
+# ax4.set_xticklabels(['2','3']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,4,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'b',1,4,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -217,7 +217,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax1 is the top left shape 
 # ax1.set_ylim(500,700); ax1.set_yticks(arange(550,701,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Target Shape TOP-LEFT', size = 18, position = (.5, 0.9));
 # #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_xticklabels(['2','3']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,1,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,1,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -229,7 +229,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax2 is the top right shape 
 # ax2.set_ylim(500,700); ax2.set_yticks(arange(550,701,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Target Shape TOP-RIGHT', size = 18, position = (.5, 0.9));
 # #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,2,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,2,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -240,8 +240,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the bottom left shape 
 # ax3.set_ylim(500,700); ax3.set_yticks(arange(550,701,50)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Target Shape BOTTOM-LEFT', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['1','2']); 
+# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['2','3']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,3,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,3,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -253,7 +253,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax4 is the bottom right shape 
 # ax4.set_ylim(500,700); ax4.set_yticks(arange(550,701,50)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Target Shape BOTTOM-RIGHT', size = 18, position = (.5, 0.9));
 # #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['1','2']); 
+# ax4.set_xticklabels(['2','3']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,4,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_mean_rt'%(id,'t',1,4,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -295,7 +295,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax1 is the top left shape 
 # ax1.set_ylim(0.8,1.0); ax1.set_yticks(arange(0.85,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Target Shape TOP-LEFT', size = 18, position = (.5, 0.9));
 # #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_xticklabels(['2','3']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,1,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,1,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -307,7 +307,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax2 is the top right shape 
 # ax2.set_ylim(0.8,1.0); ax2.set_yticks(arange(0.85,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Target Shape TOP-RIGHT', size = 18, position = (.5, 0.9));
 # #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,2,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,2,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -318,8 +318,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the bottom left shape 
 # ax2.set_ylim(0.8,1.0); ax2.set_yticks(arange(0.85,1.01,0.05)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Target Shape BOTTOM-LEFT', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Proportion correct',size=18); ax3.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['1','2']); 
+# ax3.set_ylabel('Proportion correct',size=18); ax3.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['2','3']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,3,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,3,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -331,7 +331,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax4 is the bottom right shape 
 # ax4.set_ylim(0.8,1.0); ax4.set_yticks(arange(0.85,1.01,0.05)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Target Shape BOTTOM-RIGHT', size = 18, position = (.5, 0.9));
 # #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['1','2']); 
+# ax4.set_xticklabels(['2','3']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,4,0)],color=colors[0], alpha = 0.6, width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'b',1,4,1)],color=colors[0], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -373,7 +373,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax1 is the top left shape 
 # ax1.set_ylim(0.8,1.0); ax1.set_yticks(arange(0.85,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Target Shape TOP-LEFT', size = 18, position = (.5, 0.9));
 # #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['1','2']); 
+# ax1.set_xticklabels(['2','3']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,1,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,1,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -385,7 +385,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax2 is the top right shape 
 # ax2.set_ylim(0.8,1.0); ax2.set_yticks(arange(0.85,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Target Shape TOP-RIGHT', size = 18, position = (.5, 0.9));
 # #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['1','2']); 
+# ax2.set_xticklabels(['2','3']); 
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,2,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,2,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -396,8 +396,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the bottom left shape 
 # ax3.set_ylim(0.8,1.0); ax3.set_yticks(arange(0.85,1.01,0.05)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Target Shape BOTTOM-LEFT', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Proportion correct',size=18); ax3.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['1','2']); 
+# ax3.set_ylabel('Proportion correct',size=18); ax3.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['2','3']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,3,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,3,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -408,8 +408,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 # #ax4 is the bottom right shape 
 # ax4.set_ylim(0.8,1.0); ax4.set_yticks(arange(0.85,1.01,0.05)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Target Shape BOTTOM-RIGHT', size = 18, position = (.5, 0.9));
-# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching shape to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['1','2']); 
+# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
+# ax4.set_xticklabels(['2','3']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,4,0)],color=colors[1], alpha = 0.6, width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_targetshape_%s_5thdmatch_pc'%(id,'t',1,4,1)],color=colors[1], alpha = 0.6 ,width=0.4);
 # if id=='agg':
@@ -455,8 +455,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # colors=['blue','red'];
 # #ax1 is the bottom up left response
 # ax1.set_ylim(500,700); ax1.set_yticks(arange(550,701,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['2','3']); 
+# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax1.set_xticklabels(['3','4']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'b',1,'left',2)],color=colors[0],width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
 # if id=='agg':
@@ -467,8 +467,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 # #ax2 is bottom up right response
 # ax2.set_ylim(500,700); ax2.set_yticks(arange(550,701,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Bottom Up Task, RIGHT Response', size = 18, position = (.5, 0.9));
-# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['2','3']); 
+# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax2.set_xticklabels(['3','4']); 
 # colors=['blue','red'];
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'b',1,'right',2)],color=colors[0],width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
@@ -481,7 +481,7 @@ matplotlib.pyplot.rc('font',weight='bold');
 # #ax3 is the top down left response
 # ax3.set_ylim(500,700); ax3.set_yticks(arange(550,701,50)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
 # ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['2','3']); 
+# ax3.set_xticklabels(['3','4']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'t',1,'left',2)],color=colors[1],width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'t',1,'left',3)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -492,8 +492,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 # #ax4 is the top down right response
 # ax4.set_ylim(500,700); ax4.set_yticks(arange(550,701,50)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['2','3']); 
+# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax4.set_xticklabels(['3','4']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'t',1,'right',2)],color=colors[1],width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_mean_rt'%(id,'t',1,'right',3)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -526,8 +526,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # colors=['blue','red'];
 # #ax1 is the bottom up left response
 # ax1.set_ylim(0.8,1.0); ax1.set_yticks(arange(0.85,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['2','3']); 
+# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax1.set_xticklabels(['3','4']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'b',1,'left',2)],color=colors[0],width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
 # if id=='agg':
@@ -538,8 +538,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 # #ax2 is bottom up right response
 # ax2.set_ylim(0.8,1.0); ax2.set_yticks(arange(0.85,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Bottom Up Task, RIGHT Response', size = 18, position = (.5, 0.9));
-# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['2','3']); 
+# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax2.set_xticklabels(['3','4']); 
 # colors=['blue','red'];
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'b',1,'right',2)],color=colors[0],width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
@@ -551,8 +551,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the top down left response
 # ax3.set_ylim(0.8,1.0); ax3.set_yticks(arange(0.85,1.01,0.05)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['2','3']); 
+# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['3','4']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'t',1,'left',2)],color=colors[1],width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'t',1,'left',3)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -563,8 +563,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 # #ax4 is the top down right response
 # ax4.set_ylim(0.8,1.0); ax4.set_yticks(arange(0.85,1.01,0.05)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['2','3']); 
+# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax4.set_xticklabels(['3','4']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'t',1,'right',2)],color=colors[1],width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_pc'%(id,'t',1,'right',3)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -602,8 +602,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # colors=['blue','red'];
 # #ax1 is the bottom up left response
 # ax1.set_ylim(500,700); ax1.set_yticks(arange(550,701,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax1.set_xticklabels(['2','3']); 
+# #ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax1.set_xticklabels(['3','4']); 
 # ax1.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'b',1,'left',2)],color=colors[0],width=0.4);
 # ax1.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
 # if id=='agg':
@@ -614,8 +614,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 # #ax2 is bottom up right response
 # ax2.set_ylim(500,700); ax2.set_yticks(arange(550,701,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Bottom Up Task, RIGHT Response', size = 18, position = (.5, 0.9));
-# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax2.set_xticklabels(['2','3']); 
+# #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax2.set_xticklabels(['3','4']); 
 # colors=['blue','red'];
 # ax2.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'b',1,'right',2)],color=colors[0],width=0.4);
 # ax2.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'b',1,'left',3)],color=colors[0],width=0.4);
@@ -627,8 +627,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # #ax3 is the top down left response
 # ax3.set_ylim(500,700); ax3.set_yticks(arange(550,701,50)); ax3.set_xlim([0.7,1.9]); ax3.set_xticks([1,1.6]); ax3.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
-# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax3.set_xticklabels(['2','3']); 
+# ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax3.set_xticklabels(['3','4']); 
 # ax3.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'t',1,'left',2)],color=colors[1],width=0.4);
 # ax3.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'t',1,'left',3)],color=colors[1],width=0.4);
 # if id=='agg':
@@ -639,8 +639,8 @@ matplotlib.pyplot.rc('font',weight='bold');
 # ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 # #ax4 is the top down right response
 # ax4.set_ylim(500,700); ax4.set_yticks(arange(550,701,50)); ax4.set_xlim([0.7,1.9]); ax4.set_xticks([1,1.6]); ax4.set_title('Top Down Task, LEFT Response', size = 18, position = (.5, 0.9));
-# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of distractors with matching RESPONSE to target',size=18); #,labelpad=40
-# ax4.set_xticklabels(['2','3']); 
+# #ax4.set_ylabel('Response time',size=18); ax4.set_xlabel('Number of matching RESPONSE (including target)',size=18); #,labelpad=40
+# ax4.set_xticklabels(['3','4']); 
 # ax4.bar(1,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'t',1,'right',2)],color=colors[1],width=0.4);
 # ax4.bar(1.6,db['%s_LR_%s_%s_targets_%s_resp_%s_nrmatchdist_5thdnotmatch_mean_rt'%(id,'t',1,'right',3)],color=colors[1],width=0.4);
 # if id=='agg':
