@@ -266,7 +266,7 @@ def compute_BS_SEM(data_matrix, type):
 		err = [mean(d) for d in matrix if (len(d)>0)]-grand_mean;
 		squared_err = err**2;
 		MSE = sum(squared_err)/(n-1);
-	elif type=='result':
+	elif type=='pc':
 		grand_pc = pc(agg_data);
 		matrix = [[dee for dee in datas] for datas in data_matrix]
 		err = [pc(d) for d in matrix if (len(d)>0)]-grand_pc;

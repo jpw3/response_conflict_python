@@ -12,9 +12,9 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
+savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/figures/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -134,6 +134,7 @@ ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # savefig(savepath+filename+'.eps',dpi=400);
 # show();
 show();
+
 
 
 #RT as a function of # distractors with the same shapes (1 or 2), pulled out for different target shapes, Bottom up task
@@ -525,6 +526,7 @@ ax4.yaxis.set_ticks_position('left'); ax4.xaxis.set_ticks_position('bottom');
 show();
 
 
+<<<<<<< HEAD
 # #PC as a function of # distractors with the same RESPONSE, separated by response and number of matching distractors
 # fig , (axuno, axduo) = subplots(2,2,figsize = (12.8,7.64)); fig.suptitle('Distractor Matching RESPONSE, Proportion Correct,\n Single Target Trials, UP-DOWN Task, Subject %s'%id, size = 22);
 # ax1 = axuno[0]; ax2 = axuno[1]; ax3 = axduo[0]; ax4 = axduo[1];
@@ -769,9 +771,4 @@ ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 # savefig(savepath+filename+'.eps',dpi=400);
 # show();
 show();
-
-
-
-
-
 

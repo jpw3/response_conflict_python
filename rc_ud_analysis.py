@@ -21,7 +21,7 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1']; #'jpw'
+ids=['ud1','ud2','ud3']; #'jpw'
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -204,10 +204,10 @@ def computeCongruency(trial_matrix, id = 'agg'):
 		db=individ_subject_data;	
     #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
 	#run this analysis separatel for the bottom up and top down blocks
-	for type in ['b','t']: 
+	for type in ['b','t']:
+		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
 		for trial_types, name in zip([(17,18,19,20),(21,22),(23,24,25,26)],['cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
-			t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
 			all_rt_matrix = [[tee.response_time for tee in ts if((tee.result==1)&(tee.nr_targets==2)&(tee.trial_type in trial_types))] for ts in t_matrix];
 			ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
@@ -268,7 +268,7 @@ def compute_BS_SEM(data_matrix, type):
 		err = [mean(d) for d in matrix if (len(d)>0)]-grand_mean;
 		squared_err = err**2;
 		MSE = sum(squared_err)/(n-1);
-	elif type=='result':
+	elif type=='pc':
 		grand_pc = pc(agg_data);
 		matrix = [[dee for dee in datas] for datas in data_matrix]
 		err = [pc(d) for d in matrix if (len(d)>0)]-grand_pc;
