@@ -164,6 +164,36 @@ def analyzeDistShapeEffect(trial_matrix,id):
 					
 	db.sync();
 
+
+def computeSTBias(trial_matrix, id='agg'):
+	#determine if there is a bias in responding for the single target trials
+	#get appropriate database to store data
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through number of targets. Only do single targets for now
+		for nrt in [1]:
+			for target_shape in [1,2,3,4]:
+				t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
+				all_rt_matrix = [[tee.response_time for tee in ts if((tee.result==1)&(tee.nr_targets==nrt)&(tee.target_shapes[0]==target_shape))] for ts in t_matrix];
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
+				res_matrix = [[tee.result for tee in ts if((tee.nr_targets==nrt)&(tee.target_shapes[0]==target_shape))] for ts in t_matrix];
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+				if len(rts)==0:
+					continue;
+				db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,type,nrt,target_shape)]=mean(rts);	db['%s_UD_%s_%s_targets_%s_targetshape_median_rt'%(id,type,nrt,target_shape)]=median(rts);	db['%s_UD_%s_%s_targets_%s_targetshape_var_rt'%(id,type,nrt,target_shape)]=var(rts);
+				db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,type,nrt,target_shape)]=pc(res);
+				db.sync();
+				if id=='agg':					
+					db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,type,nrt,target_shape)] = compute_BS_SEM(rt_matrix,'time');
+					db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,type,nrt,target_shape)] = compute_BS_SEM(res_matrix, 'pc');				
+	db.sync();
+
+
 def computeNT(trial_matrix, id='agg'):
 	#trial_matrix should be a list of trials for each subjects
 	#get appropriate database to store data
