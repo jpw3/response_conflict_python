@@ -43,6 +43,99 @@ matplotlib.pyplot.rc('font',weight='bold');
 # As a function of DISTRACTOR SHAPE
 ##########################################################################################################################################################
 
+#single target RT broken down by target shape
+fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);
+colors = ['gray','gray'];
+ax1.set_ylim(400,950); ax1.set_yticks(arange(450,951,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]);
+ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
+ax1.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
+ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,1)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,2)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,3)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,4)],color='gray', alpha = 1.0, width=0.4);
+if id=='agg':
+    ax1.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,1)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,1)]]],color='black',lw=6.0);    
+    ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,2)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,2)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,2)]]],color='black',lw=6.0);     
+    ax1.errorbar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,3)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,3)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,3)]]],color='black',lw=6.0);
+    ax1.errorbar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,4)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,4)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,4)]]],color='black',lw=6.0); 
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+ax2.set_ylim(400,950); ax2.set_yticks(arange(450,951,50)); ax2.set_xlim([0.7,3.1]); ax2.set_xticks([1,1.6,2.2,2.8]);
+ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+ax2.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
+ax2.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
+ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,1)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,2)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,3)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,4)],color='gray', alpha = 1.0, width=0.4);
+if id=='agg':
+    ax2.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,1)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,1)]]],color='black',lw=6.0);    
+    ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,2)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,2)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,2)]]],color='black',lw=6.0);     
+    ax2.errorbar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,3)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,3)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,3)]]],color='black',lw=6.0);
+    ax2.errorbar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,4)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,4)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,4)]]],color='black',lw=6.0); 
+ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+show();  
+ 
+ 
+ 
+#single target PC broken down by target shape
+fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);
+colors = ['gray','gray'];
+ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.8,1.01,0.05)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]);
+ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
+ax1.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
+ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,1)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,2)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,3)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,4)],color='gray', alpha = 1.0, width=0.4);
+if id=='agg':
+    ax1.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,1)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,1)]]],color='black',lw=6.0);    
+    ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,2)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,2)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,2)]]],color='black',lw=6.0);     
+    ax1.errorbar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,3)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,3)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,3)]]],color='black',lw=6.0);
+    ax1.errorbar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,4)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,4)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,4)]]],color='black',lw=6.0); 
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+ax2.set_ylim(0.75,1.0); ax2.set_yticks(arange(0.75, 1.01, 0.05)); ax2.set_xlim([0.7,3.1]); ax2.set_xticks([1,1.6,2.2,2.8]);
+ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+ax2.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
+ax2.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
+ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,1)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,2)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,3)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,4)],color='gray', alpha = 1.0, width=0.4);
+if id=='agg':
+    ax2.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,1)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,1)]]],color='black',lw=6.0);    
+    ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,2)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,2)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,2)]]],color='black',lw=6.0);     
+    ax2.errorbar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,3)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,3)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,3)]]],color='black',lw=6.0);
+    ax2.errorbar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,4)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,4)]],
+        [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,4)]]],color='black',lw=6.0); 
+ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+show();
+
+
 
 #RT as a function of # distractors with the same shapes (1 or 2), collapsed cross the distractor shapes
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Distractors With Matching Shapes,\n Single Target Trials, UP-DOWN Task, Subject %s'%id, size = 22);
