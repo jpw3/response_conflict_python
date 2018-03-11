@@ -13,7 +13,7 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+datapath = '/Volumes/WORK_HD/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
 shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
 savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
@@ -21,7 +21,7 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -211,7 +211,7 @@ def computeNT(trial_matrix, id='agg'):
 			ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
 			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==nrt)] for ts in t_matrix];
-			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];						
+			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			db['%s_UD_%s_%s_targets_mean_rt'%(id,type,nrt)]=mean(rts);	db['%s_UD_%s_%s_targets_median_rt'%(id,type,nrt)]=median(rts);	db['%s_UD_%s_%s_targets_var_rt'%(id,type,nrt)]=var(rts);
@@ -392,3 +392,9 @@ class Trial(object):
 		self.result = trialData.result;
 		self.selected_type = str(trialData.selected_type);
 		self.drift_shift = trialData.drift_shift;
+		
+		
+# datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+# shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+# savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #		
+		
