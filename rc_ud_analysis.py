@@ -21,7 +21,7 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4','ud5']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5','ud6']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -247,7 +247,8 @@ def computeCongruency(trial_matrix, id = 'agg'):
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)			
 			db['%s_UD_%s_2_targets_%s_mean_rt'%(id,type,name)]=mean(rts);	db['%s_UD_%s_2_targets_%s_median_rt'%(id,type,name)]=median(rts);	db['%s_UD_%s_2_targets_%s_var_rt'%(id,type,name)]=var(rts);
 			db['%s_UD_%s_2_targets_%s_pc'%(id,type,name)]=pc(res);
-			print '%s %s %s = rt: %3.2f'%(id,type,name,mean(rts));			
+			print '%s %s %s = rt: %3.2f'%(id,type,name,mean(rts));
+			print '%s %s %s = PC: %1.3f'%(id,type,name,pc(res));
 			db.sync();
 			if id=='agg':
 				db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time');

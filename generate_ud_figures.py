@@ -20,7 +20,6 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud3','ud4'];
 
 id = raw_input('ID for plotting (agg for all subjects): ');
 
@@ -45,15 +44,15 @@ matplotlib.pyplot.rc('font',weight='bold');
 
 #single target RT broken down by target shape
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
+colors=['dodgerblue','mediumpurple'];
 ax1.set_ylim(400,950); ax1.set_yticks(arange(450,951,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]);
 ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax1.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
-ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,1)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,2)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,3)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,4)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,1)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,2)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,3)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,4)],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'b',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,1)]],
         [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'b',1,1)]]],color='black',lw=6.0);    
@@ -70,10 +69,10 @@ ax2.set_ylim(400,950); ax2.set_yticks(arange(450,951,50)); ax2.set_xlim([0.7,3.1
 ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax2.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
-ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,1)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,2)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,3)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,4)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,1)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,2)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,3)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,4)],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_mean_rt'%(id,'t',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,1)]],
         [db['%s_UD_%s_%s_targets_%s_targetshape_rt_bs_sems'%(id,'t',1,1)]]],color='black',lw=6.0);    
@@ -92,15 +91,15 @@ show();
  
 #single target PC broken down by target shape
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
+colors=['dodgerblue','mediumpurple'];
 ax1.set_ylim(0.75,1.0); ax1.set_yticks(arange(0.8,1.01,0.05)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]);
 ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax1.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
-ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,1)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,2)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,3)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,4)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,1)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,2)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,3)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,4)],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'b',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,1)]],
         [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'b',1,1)]]],color='black',lw=6.0);    
@@ -117,10 +116,10 @@ ax2.set_ylim(0.75,1.0); ax2.set_yticks(arange(0.75, 1.01, 0.05)); ax2.set_xlim([
 ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax2.set_xticklabels(['top\nleft','top\nright','bottom\nleft','bottom\nright']);
-ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,1)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,2)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,3)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,4)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,1)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,2)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,3)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(2.8,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,4)],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_%s_targets_%s_targetshape_pc'%(id,'t',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,1)]],
         [db['%s_UD_%s_%s_targets_%s_targetshape_pc_bs_sems'%(id,'t',1,1)]]],color='black',lw=6.0);    
@@ -143,7 +142,7 @@ fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response T
 ax1.set_ylim(500,800); ax1.set_yticks(arange(550,801,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
 ax1.set_xticklabels(['2','3']); 
-colors = ['gray','gray']; #colors=['blue','red']; colors = ['gray','gray'];
+colors=['dodgerblue','mediumpurple']; #colors=['blue','red']; colors = ['gray','gray'];
 ax1.bar(1,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'b',1,0)],color=colors[0],width=0.4);
 ax1.bar(1.6,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'b',1,1)],color=colors[0],width=0.4);
 if id=='agg':
@@ -156,8 +155,8 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 ax2.set_ylim(500,800); ax2.set_yticks(arange(550,801,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of matching shape (including target)',size=18); #,labelpad=40
 ax2.set_xticklabels(['2','3']); 
-ax2.bar(1,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,0)],color=colors[1],width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,1)],color=colors[1],width=0.4);
+ax2.bar(1,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,0)],color=colors[0],width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,1)],color=colors[0],width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,0)],yerr=[[db['%s_UD_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,'t',1,0)]],[db['%s_UD_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,'t',1,0)]]],color='black',lw=6.0);
     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_%s_5thdmatch_mean_rt'%(id,'t',1,1)],yerr=[[db['%s_UD_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,'t',1,1)]],[db['%s_UD_%s_%s_targets_%s_5thdmatch_rt_bs_sems'%(id,'t',1,1)]]],color='black',lw=6.0);
@@ -775,14 +774,16 @@ show();
 ## ##Number of Targets comparison, 1 vs. 2
 #########################################################################################################################################################
 
+colors=['dodgerblue','mediumpurple'];
+
 #do the bottom up and top down plots on separate subaxes
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
 #ax1 is the bottom up task plot
 ax1.set_ylim(500,1050); ax1.set_yticks(arange(550,1051,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
 ax1.set_xticklabels(['1','2']); 
-ax1.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
     ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
@@ -793,8 +794,8 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 ax2.set_ylim(500,1050); ax2.set_yticks(arange(550,1051,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
 ax2.set_xticklabels(['1','2']); 
-ax2.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
@@ -827,8 +828,8 @@ fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Accuracy B
 ax1.set_ylim(0.75, 1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
 ax1.set_xticklabels(['1','2']); 
-ax1.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
     ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
@@ -839,8 +840,8 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 ax2.set_ylim(0.75, 1.0); ax2.set_yticks(arange(0.75,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Proportion Correct',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
 ax2.set_xticklabels(['1','2']); 
-ax2.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
@@ -869,14 +870,17 @@ show();
 ## Congruency Comparisons
 #########################################################################################################################################################
 
+colors = [(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
+
+
 #do the bottom up and top down plots on separate subaxes
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Congruency Conditions,\n Up-Down Task, Subject %s'%id, size = 22);
 ax1.set_ylim(500,1050); ax1.set_yticks(arange(550,1051,50)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['CP/CR','IP/CR','IP/IR']); #['Congruent Percept\nCongruent Response','Incongruent Percept\nCongruent Response','Incongruent Percept\nIncongruent Response']
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_incong_resp')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_cong_resp')],color=colors[1], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_incong_resp')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp')]]],color='black',lw=6.0);
     ax1.errorbar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp')]]],color='black',lw=6.0);
@@ -888,9 +892,9 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 ax2.set_ylim(500,1050); ax2.set_yticks(arange(550,1051,50)); ax2.set_xlim([0.7,2.5]); ax2.set_xticks([1,1.6,2.2]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Condition',size=18);
 ax2.set_xticklabels(['CP/CR','IP/CR','IP/IR']);
-ax2.bar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','cong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','incong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','incong_per_incong_resp')],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','cong_per_cong_resp')],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','incong_per_cong_resp')],color=colors[1], alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','incong_per_incong_resp')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','cong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp')]]],color='black',lw=6.0);
     ax2.errorbar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'t','incong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp')]]],color='black',lw=6.0);
@@ -921,9 +925,9 @@ fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Accuracy B
 ax1.set_ylim(0.75, 1.0); ax1.set_yticks(arange(0.8, 1.01, 0.05)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['CP/CR','IP/CR','IP/IR']); #['Congruent Percept\nCongruent Response','Incongruent Percept\nCongruent Response','Incongruent Percept\nIncongruent Response']
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','cong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','incong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','incong_per_incong_resp')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','cong_per_cong_resp')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','incong_per_cong_resp')],color=colors[1], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','incong_per_incong_resp')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','cong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'b','cong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'b','cong_per_cong_resp')]]],color='black',lw=6.0);
     ax1.errorbar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'b','incong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'b','incong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'b','incong_per_cong_resp')]]],color='black',lw=6.0);
@@ -935,9 +939,9 @@ ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 ax2.set_ylim(0.75, 1.0); ax2.set_yticks(arange(0.8, 1.01, 0.05)); ax2.set_xlim([0.7,2.5]); ax2.set_xticks([1,1.6,2.2]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
 #ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Condition',size=18);
 ax2.set_xticklabels(['CP/CR','IP/CR','IP/IR']);
-ax2.bar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','cong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','incong_per_cong_resp')],color='gray', alpha = 1.0, width=0.4);
-ax2.bar(2.2,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','incong_per_incong_resp')],color='gray', alpha = 1.0, width=0.4);
+ax2.bar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','cong_per_cong_resp')],color=colors[0], alpha = 1.0, width=0.4);
+ax2.bar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','incong_per_cong_resp')],color=colors[1], alpha = 1.0, width=0.4);
+ax2.bar(2.2,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','incong_per_incong_resp')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax2.errorbar(1,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','cong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'t','cong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'t','cong_per_cong_resp')]]],color='black',lw=6.0);
     ax2.errorbar(1.6,db['%s_UD_%s_2_targets_%s_pc'%(id,'t','incong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'t','incong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,'t','incong_per_cong_resp')]]],color='black',lw=6.0);
@@ -969,14 +973,13 @@ show();
 #run the congruency comparison, searating out the different shapes
 #first separate out the bottom up congruenct percept/congruent response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Bottom-Up RT for Congruent Percept/Congruent Response Trials\n For Each Shape, Single Target Trials, UP-DOWN Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(500,1050); ax1.set_yticks(arange(550,1051,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax1.set_xticklabels(['top_left','bottom_left','top_right','bottom_right']); 
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_top_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_top_right')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_bottom_right')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_top_left')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_bottom_left')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_top_right')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_bottom_right')],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','cong_per_cong_resp','both_top_left')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp','both_top_left')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp','both_top_left')]]],color='black',lw=6.0);
@@ -995,12 +998,11 @@ show();
 
 #next separate out the incongruent percept/congruent response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Bottom-Up RT for Congruent Percept/Incongruent Response Trials\n For Each Type, Single Target Trials, UP-DOWN Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(500,1050); ax1.set_yticks(arange(550,1051,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['both_up_responses','both_down_responses']); 
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_cong_resp','both_top_responses')],color='gray', alpha = 1.0, width=0.2);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_cong_resp','both_bottom_responses')],color='gray', alpha = 1.0, width=0.2);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_cong_resp','both_top_responses')],color=colors[1], alpha = 1.0, width=0.2);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_cong_resp','both_bottom_responses')],color=colors[1], alpha = 1.0, width=0.2);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_cong_resp','both_top_responses')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp','both_top_responses')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp','both_top_responses')]]],color='black',lw=6.0);
@@ -1015,14 +1017,13 @@ show();
 
 #finally check out the incongruent percept/incongreutn response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Bottom-Up RT for Incongruent Percept/Incongruent Response Trials\n For Each Shape, Single Target Trials, UP-DOWN Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(500,1050); ax1.set_yticks(arange(550,1051,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['top_left\nbottom_left','top_left\nbottom_right','top_right\nbottom_left','top_right\nbottom_right']);
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_left_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_left_bottom_right')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_right_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_right_bottom_right')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_left_bottom_left')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_left_bottom_right')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_right_bottom_left')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_right_bottom_right')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'b','incong_per_incong_resp','top_left_bottom_left')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','top_left_bottom_left')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','top_left_bottom_left')]]],color='black',lw=6.0);
@@ -1042,14 +1043,13 @@ show();
 #run the congruency comparison, searating out the different shapes
 #first separate out the bottom up congruenct percept/congruent response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Top-Down RT for Congruent Percept/Congruent Response Trials\n For Each Shape, Single Target Trials, Left-Right Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(400,950); ax1.set_yticks(arange(450,951,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Target Shape',size=18);
 ax1.set_xticklabels(['top_left','bottom_left','top_right','bottom_right']); 
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_top_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_top_right')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_bottom_right')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_top_left')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_bottom_left')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_top_right')],color=colors[0], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_bottom_right')],color=colors[0], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','cong_per_cong_resp','both_top_left')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp','both_top_left')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp','both_top_left')]]],color='black',lw=6.0);
@@ -1068,12 +1068,11 @@ show();
 
 #next separate out the incongruent percept/congruent response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Top-Down RT for Congruent Percept/Incongruent Response Trials\n For Each Type, Single Target Trials, Left-Right Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(400,950); ax1.set_yticks(arange(450,951,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['both_top_responses','both_bottom_responses']); 
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_cong_resp','both_top_responses')],color='gray', alpha = 1.0, width=0.2);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_cong_resp','both_bottom_responses')],color='gray', alpha = 1.0, width=0.2);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_cong_resp','both_top_responses')],color=colors[1], alpha = 1.0, width=0.2);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_cong_resp','both_bottom_responses')],color=colors[1], alpha = 1.0, width=0.2);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_cong_resp','both_top_responses')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp','both_top_responses')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp','both_top_responses')]]],color='black',lw=6.0);
@@ -1088,14 +1087,13 @@ show();
 
 #finally check out the incongruent percept/incongreutn response trials
 fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Top-Down RT for Incongruent Percept/Incongruent Response Trials\n For Each Shape, Single Target Trials, Left-Right Task, Subject %s'%id, size = 22);
-colors = ['gray','gray'];
 ax1.set_ylim(400,950); ax1.set_yticks(arange(450,951,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6,2.2,2.8]); #ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['top_left\nbottom_left','top_left\nbottom_right','top_right\nbottom_left','top_right\nbottom_right']);
-ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_left_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_left_bottom_right')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_right_bottom_left')],color='gray', alpha = 1.0, width=0.4);
-ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_right_bottom_right')],color='gray', alpha = 1.0, width=0.4);
+ax1.bar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_left_bottom_left')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(1.6,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_left_bottom_right')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(2.2,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_right_bottom_left')],color=colors[2], alpha = 1.0, width=0.4);
+ax1.bar(2.8,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_right_bottom_right')],color=colors[2], alpha = 1.0, width=0.4);
 if id=='agg':
     ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_%s_mean_rt'%(id,'t','incong_per_incong_resp','top_left_bottom_left')],yerr=[[db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','top_left_bottom_left')]],
         [db['%s_UD_%s_2_targets_%s_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','top_left_bottom_left')]]],color='black',lw=6.0);
