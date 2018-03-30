@@ -13,7 +13,7 @@ import random #general purpose
 import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
-datapath = '/Volumes/WORK_HD/data/all_resp_data/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+datapath = '/Volumes/WORK_HD/data/temp_resp/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
 shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
 savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
@@ -21,7 +21,7 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
