@@ -23,7 +23,7 @@ savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
