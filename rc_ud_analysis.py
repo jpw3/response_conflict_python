@@ -23,7 +23,7 @@ savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13','ud14','ud15']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13','ud14','ud15','ud16','ud17']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -32,6 +32,7 @@ def analyzeDistShapeEffect(trial_matrix,id):
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
+		#data = pd.DataFrame(columns = ['sub_id','type','nr_match','mean_rt','pc']);
 	else:
 		db=individ_subject_data;
 	trials = [tee for person in trial_matrix for tee in person]; #collect all trials together in a single list
@@ -201,6 +202,7 @@ def computeNT(trial_matrix, id='agg'):
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
+		data = pd.DataFrame(columns = ['sub_id','type','nr_targets','mean_rt','pc']);
 	else:
 		db=individ_subject_data;
     #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
@@ -222,9 +224,16 @@ def computeNT(trial_matrix, id='agg'):
 			db.sync();
 			if id=='agg':					
 				db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,type,nrt)] = compute_BS_SEM(rt_matrix,'time');
-				db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,type,nrt)] = compute_BS_SEM(res_matrix, 'pc');			
+				db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,type,nrt)] = compute_BS_SEM(res_matrix, 'pc');
+				#append data to the dataframe object
+				index_counter = 0;
+				for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+					data.loc[index_counter] = [i,type,nrt,mean(r_scores),pc(res_scores),];
+					index_counter+=1;
+				
 	db.sync();	
-
+	if id=='agg':
+		data.to_csv(savepath+'nr_targets.csv',index=False);
 
 def computeCongruency(trial_matrix, id = 'agg'):
 	#computes the response and perceptual incongruence data for the two target trials
@@ -232,6 +241,7 @@ def computeCongruency(trial_matrix, id = 'agg'):
 	#get appropriate database to store data
 	if id=='agg':
 		db=subject_data;
+		data = pd.DataFrame(columns = ['sub_id','type','congruency','mean_rt','pc']);
 	else:
 		db=individ_subject_data;	
     #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
@@ -254,9 +264,14 @@ def computeCongruency(trial_matrix, id = 'agg'):
 			db.sync();
 			if id=='agg':
 				db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time');
-				db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix, 'pc');			
+				db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix, 'pc');
+				index_counter = 0;
+				for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+					data.loc[index_counter] = [i,type,name,mean(r_scores),pc(res_scores),];
+					index_counter+=1;				
 	db.sync();
-
+	if id=='agg':
+		data.to_csv(savepath+'congruency.csv',index=False);
 
 def computeCongruencyForEachTrialType(trial_matrix, id = 'agg'):	
 	#computes the response and perceptual incongruence data for the two target trial, separated out individually for the trial types
