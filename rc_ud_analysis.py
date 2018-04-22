@@ -16,7 +16,7 @@ pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 datapath ='/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
 shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -207,6 +207,7 @@ def computeNT(trial_matrix, id='agg'):
 		db=individ_subject_data;
     #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
 	#run this analysis separatel for the bottom up and top down blocks
+	index_counter = 0;
 	for type in ['b','t']: 
 		#cycle through number of targets. Only do single targets for now
 		for nrt in [1,2]:
@@ -226,7 +227,6 @@ def computeNT(trial_matrix, id='agg'):
 				db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,type,nrt)] = compute_BS_SEM(rt_matrix,'time');
 				db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,type,nrt)] = compute_BS_SEM(res_matrix, 'pc');
 				#append data to the dataframe object
-				index_counter = 0;
 				for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
 					data.loc[index_counter] = [i,type,nrt,mean(r_scores),pc(res_scores),];
 					index_counter+=1;
@@ -246,6 +246,7 @@ def computeCongruency(trial_matrix, id = 'agg'):
 		db=individ_subject_data;	
     #here cycle through the total number of stimuli and number of distractors, finding the RT and accuracy for each combo
 	#run this analysis separatel for the bottom up and top down blocks
+	index_counter = 0;
 	for type in ['b','t']:
 		t_matrix = [[tee for tee in trs if (tee.block_type==type)] for trs in trial_matrix];
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
@@ -265,7 +266,6 @@ def computeCongruency(trial_matrix, id = 'agg'):
 			if id=='agg':
 				db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,type,name)] = compute_BS_SEM(rt_matrix,'time');
 				db['%s_UD_%s_2_targets_%s_pc_bs_sems'%(id,type,name)] = compute_BS_SEM(res_matrix, 'pc');
-				index_counter = 0;
 				for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
 					data.loc[index_counter] = [i,type,name,mean(r_scores),pc(res_scores),];
 					index_counter+=1;				
