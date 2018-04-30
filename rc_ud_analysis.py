@@ -14,9 +14,9 @@ import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # '/Volumes/WORK_HD/data/temp_resp/'; # 
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath =  '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/data/'; #
+datapath = '/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # 
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -26,6 +26,76 @@ individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13','ud14','ud15','ud16','ud17']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
+
+def analyzeNBack(block_matrix, id):
+	#analyzes NBack for the different trial types
+	if id=='agg':
+		db=subject_data;
+		data = pd.DataFrame(columns = ['sub_id','type','trial_type','nback','mean_rt','pc']);
+	else:
+		db=individ_subject_data;
+	# break the nback analysis down by trial type	
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+		for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+			for nback in [0,1]:   #,2
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];
+				index_counter=0;
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if b.block_type!=type:
+							continue;
+						for i in arange(0,len(b.trials)):
+							#check whether the n-back is satisfied
+							if (nback==0):
+								# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+								if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):
+									if b.trials[i].result==1:										
+										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									all_res_matrix[subj_nr].append(b.trials[i].result);
+								elif ((b.trials[i-1].trial_type in trial_types)==False)&(b.trials[i].trial_type in trial_types):
+									if b.trials[i].result==1:										
+										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									all_res_matrix[subj_nr].append(b.trials[i].result);									
+							if (nback==1):
+								#1 back only (1 repetition)
+								if b.trials[i].trial_nr==0:
+									continue;
+								if (b.trials[i-1].trial_type in trial_types)&(b.trials[i].trial_type in trial_types):
+									if b.trials[i].result==1:
+										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									all_res_matrix[subj_nr].append(b.trials[i].result);
+							if (nback==2):
+								#2 back and 1 back (2 repetitions)
+								if (b.trials[i].trial_nr==0)|(b.trials[i].trial_nr==1):
+									continue;					
+								if (b.trials[i-2].trial_type in trial_types)&(b.trials[i-1].trial_type in trial_types)&(b.trials[i].trial_type in trial_types):
+									if b.trials[i].result==1:
+										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									all_res_matrix[subj_nr].append(b.trials[i].result);
+
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0
+				db['%s_UD_%s_%s_%s_mean_rt'%(id,type,name,nback)]=mean(rts);	db['%s_UD_%s_%s_%s_median_rt'%(id,type,name,nback)]=median(rts);	db['%s_UD_%s_%s_%s_var_rt'%(id,type,name,nback)]=var(rts);
+				db['%s_UD_%s_%s_%s_pc'%(id,type,name,nback)]=pc(res);
+				if id=='agg':
+					db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_%s_pc_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(res_matrix, 'pc');	
+					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+						data.loc[index_counter] = [i,type,name,nback,mean(r_scores),pc(res_scores),];
+						index_counter+=1;				
+	db.sync();
+	if id=='agg':
+		data.to_csv(savepath+'nback.csv',index=False);			
+				
+
 
 def analyzeDistShapeEffect(trial_matrix,id):
 	#trial_matrix should be a list of trials for each subjects
@@ -377,13 +447,14 @@ class Block(object):
 		self.nr_invalids = matStructure.nr_invalids;
 		self.sp = matStructure.sp;
 		self.dp = matStructure.dp;
-		self.trials = [Trial(trialData) for trialData in  matStructure.trial_data];
+		self.trials = [Trial(trialData,i) for i,trialData in  enumerate(matStructure.trial_data)];
         
 #define a Trial object that will hold the individual trial data for discrimination tasks
 class Trial(object):
 	#object being passed into this Trial instance should be a dictionary corresponding to the trial data for this given trial
-	def __init__(self, trialData):
+	def __init__(self, trialData, i):
 		self.sub_id = str(trialData.sub_id);
+		self.trial_nr = i;
 		self.block_type = str(trialData.block_type); #b for bottom up, of t for top down
 		self.block_nr = trialData.block_nr;
 		self.trial_type = trialData.trial_type;

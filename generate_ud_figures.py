@@ -12,9 +12,9 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # '/Users/james/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -41,6 +41,42 @@ matplotlib.pyplot.rc('font',weight='bold');
 #Single Target Distractor Shape Plots
 # As a function of DISTRACTOR SHAPE
 ##########################################################################################################################################################
+
+#plot the Nback 
+fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('N-Back analysis, UP-DOWN task, subject %s'%id, size = 22);
+colors = ['dodgerblue',(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
+ax1.set_ylim(600,900); ax1.set_yticks(arange(650,901,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]);
+ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Trial Type Repetitions',size=18);
+ax1.set_xticklabels(['0','1']);
+for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
+    ax1.plot([1,1.6], [db['%s_UD_%s_%s_%s_mean_rt'%(id,'b',type,0)],db['%s_UD_%s_%s_%s_mean_rt'%(id,'b',type,1)]], color = c, lw = 5.0);
+    if id=='agg':
+     ax1.errorbar(1,db['%s_UD_%s_%s_%s_mean_rt'%(id,'b',type,0)],yerr=[[db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b',type,0)]],
+         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b',type,0)]]],color=c,lw=6.0,capsize = 12);    
+     ax1.errorbar(1.6,db['%s_UD_%s_%s_%s_mean_rt'%(id,'b',type,1)],yerr=[[db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b',type,1)]],
+         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b',type,1)]]],color=c,lw=6.0,capsize = 12); 
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+#top down version
+ax2.set_ylim(600,900); ax2.set_yticks(arange(650,901,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]);
+ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Trial Type Repetitions',size=18);
+ax2.set_xticklabels(['0','1']);
+for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
+    ax2.plot([1,1.6], [db['%s_UD_%s_%s_%s_mean_rt'%(id,'t',type,0)],db['%s_UD_%s_%s_%s_mean_rt'%(id,'t',type,1)]], color = c, lw = 5.0, ms = 4.0);
+    if id=='agg':
+     ax2.errorbar(1,db['%s_UD_%s_%s_%s_mean_rt'%(id,'t',type,0)],yerr=[[db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t',type,0)]],
+         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t',type,0)]]],color=c,lw=6.0,capsize = 12);    
+     ax2.errorbar(1.6,db['%s_UD_%s_%s_%s_mean_rt'%(id,'t',type,1)],yerr=[[db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t',type,1)]],
+         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t',type,1)]]],color=c,lw=6.0,capsize = 12); 
+ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+show();  
+
+
 
 #single target RT broken down by target shape
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);
