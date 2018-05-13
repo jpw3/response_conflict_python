@@ -38,9 +38,6 @@ matplotlib.pyplot.rc('font',weight='bold');
 
 
 ##########################################################################################################################################################
-#Single Target Distractor Shape Plots
-# As a function of DISTRACTOR SHAPE
-##########################################################################################################################################################
 
 #plot the Nback 
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('N-Back analysis, UP-DOWN task, subject %s'%id, size = 22);
@@ -76,7 +73,10 @@ ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
 ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 show();  
 
-
+##########################################################################################################################################################
+#Single Target Distractor Shape Plots
+# As a function of DISTRACTOR SHAPE
+##########################################################################################################################################################
 
 #single target RT broken down by target shape
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('One Target Trials, For Each Shape, UP-DOWN Task, Subject %s'%id, size = 22);

@@ -31,7 +31,7 @@ def analyzeNBack(block_matrix, id):
 	#analyzes NBack for the different trial types
 	if id=='agg':
 		db=subject_data;
-		data = pd.DataFrame(columns = ['sub_id','type','trial_type','nback','mean_rt','pc']);
+		data = pd.DataFrame(columns = ['sub_id','type','trial_type','prev_trial_type','mean_rt','pc']);
 	else:
 		db=individ_subject_data;
 	# break the nback analysis down by trial type	
@@ -39,71 +39,24 @@ def analyzeNBack(block_matrix, id):
 	for type in ['b','t']: 
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
 		for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
-			for nback in [0,1]:   #,2
-				if nback==0:
-					sing_all_rt_matrix = [[] for su in block_matrix];
-					sing_all_res_matrix = [[] for su in block_matrix];
-					cong_cong_all_rt_matrix = [[] for su in block_matrix];
-					cong_cong_all_res_matrix = [[] for su in block_matrix];
-					cong_incong_all_rt_matrix = [[] for su in block_matrix];
-					cong_incong_all_res_matrix = [[] for su in block_matrix];
-					incong_incong_all_rt_matrix = [[] for su in block_matrix];
-					incong_incong_all_res_matrix = [[] for su in block_matrix];						
-				elif nback==1:
-					all_rt_matrix = [[] for su in block_matrix];
-					all_res_matrix = [[] for su in block_matrix];		
+			#this second loop acts to loop through for each trial type given the trial type in the outer loop above
+			for test_trial_types, test_name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
 				index_counter=0;
 				for subj_nr,blocks in enumerate(block_matrix):
 					for b in blocks:
 						if b.block_type!=type:
 							continue;
 						for i in arange(0,len(b.trials)):
-							#check whether the n-back is satisfied
-							if (nback==0):
-								# 0 nback is satisfied if the first trials in a block or if the previous trial was different
-								#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
-								#if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
-									# if b.trials[i].result==1:										
-									# 	all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									# all_res_matrix[subj_nr].append(b.trials[i].result);
-								#elif ((b.trials[i-1].trial_type in trial_types)==False)&(b.trials[i].trial_type in trial_types):
-								
-								#arange(0,17) is single target trials
-								if ((b.trials[i-1].trial_type in arange(1,17)))&(b.trials[i].trial_type in trial_types):	
-									if b.trials[i].result==1:										
-										sing_all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									sing_all_res_matrix[subj_nr].append(b.trials[i].result);
-									
-									
-									
-									
-									
-									
-									
-									
-							if (nback==1):
-								#1 back only (1 repetition)
-								if b.trials[i].trial_nr==0:
-									continue;
-								if (b.trials[i-1].trial_type in trial_types)&(b.trials[i].trial_type in trial_types):
-									if b.trials[i].result==1:
-										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									all_res_matrix[subj_nr].append(b.trials[i].result);
-									
-									
-									
-									
-									
-									
-							if (nback==2):
-								#2 back and 1 back (2 repetitions)
-								if (b.trials[i].trial_nr==0)|(b.trials[i].trial_nr==1):
-									continue;					
-								if (b.trials[i-2].trial_type in trial_types)&(b.trials[i-1].trial_type in trial_types)&(b.trials[i].trial_type in trial_types):
-									if b.trials[i].result==1:
-										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									all_res_matrix[subj_nr].append(b.trials[i].result);
-
+							# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+							#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+							if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+								foo='bar';
+							elif ((b.trials[i-1].trial_type in test_trial_types))&(b.trials[i].trial_type in trial_types):	
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);
 				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
 				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
 				res_matrix = all_res_matrix;
@@ -111,18 +64,17 @@ def analyzeNBack(block_matrix, id):
 				if len(rts)==0:
 					continue;
 					1/0
-				db['%s_UD_%s_%s_%s_mean_rt'%(id,type,name,nback)]=mean(rts);	db['%s_UD_%s_%s_%s_median_rt'%(id,type,name,nback)]=median(rts);	db['%s_UD_%s_%s_%s_var_rt'%(id,type,name,nback)]=var(rts);
-				db['%s_UD_%s_%s_%s_pc'%(id,type,name,nback)]=pc(res);
+				db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,type,name,test_name)]=mean(rts);	db['%s_UD_%s_%s_prev_trial_%s_median_rt'%(id,type,name,test_name)]=median(rts);	db['%s_UD_%s_%s_prev_trial_%s_var_rt'%(id,type,name,test_name)]=var(rts);
+				db['%s_UD_%s_%s_prev_trial_%s_pc'%(id,type,name,test_name)]=pc(res);
 				if id=='agg':
-					db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(rt_matrix, 'time');
-					db['%s_UD_%s_%s_%s_pc_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(res_matrix, 'pc');	
+					db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_prev_trial_%s_pc_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(res_matrix, 'pc');	
 					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
-						data.loc[index_counter] = [i,type,name,nback,mean(r_scores),pc(res_scores),];
+						data.loc[index_counter] = [i,type,name,test_name,mean(r_scores),pc(res_scores),];
 						index_counter+=1;				
 	db.sync();
 	if id=='agg':
-		data.to_csv(savepath+'nback.csv',index=False);			
-				
+		data.to_csv(savepath+'prev_trial_1back.csv',index=False);				
 
 
 def analyzeDistShapeEffect(trial_matrix,id):
