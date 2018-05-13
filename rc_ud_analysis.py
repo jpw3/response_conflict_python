@@ -23,7 +23,7 @@ savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/ja
 subject_data = shelve.open(shelvepath+'rc_ud_data');
 individ_subject_data = shelve.open(shelvepath+'individ_rc_ud_data');
 
-ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13','ud14','ud15','ud16','ud17']; #'jpw'    'ud3',
+ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13','ud14','ud15','ud16','ud17','ud18','ud19']; #'jpw'    'ud3',
 
 ## Data Analysis Methods ####################################################################################################
 
@@ -40,8 +40,18 @@ def analyzeNBack(block_matrix, id):
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
 		for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
 			for nback in [0,1]:   #,2
-				all_rt_matrix = [[] for su in block_matrix];
-				all_res_matrix = [[] for su in block_matrix];
+				if nback==0:
+					sing_all_rt_matrix = [[] for su in block_matrix];
+					sing_all_res_matrix = [[] for su in block_matrix];
+					cong_cong_all_rt_matrix = [[] for su in block_matrix];
+					cong_cong_all_res_matrix = [[] for su in block_matrix];
+					cong_incong_all_rt_matrix = [[] for su in block_matrix];
+					cong_incong_all_res_matrix = [[] for su in block_matrix];
+					incong_incong_all_rt_matrix = [[] for su in block_matrix];
+					incong_incong_all_res_matrix = [[] for su in block_matrix];						
+				elif nback==1:
+					all_rt_matrix = [[] for su in block_matrix];
+					all_res_matrix = [[] for su in block_matrix];		
 				index_counter=0;
 				for subj_nr,blocks in enumerate(block_matrix):
 					for b in blocks:
@@ -51,14 +61,26 @@ def analyzeNBack(block_matrix, id):
 							#check whether the n-back is satisfied
 							if (nback==0):
 								# 0 nback is satisfied if the first trials in a block or if the previous trial was different
-								if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):
+								#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+								#if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+									# if b.trials[i].result==1:										
+									# 	all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									# all_res_matrix[subj_nr].append(b.trials[i].result);
+								#elif ((b.trials[i-1].trial_type in trial_types)==False)&(b.trials[i].trial_type in trial_types):
+								
+								#arange(0,17) is single target trials
+								if ((b.trials[i-1].trial_type in arange(1,17)))&(b.trials[i].trial_type in trial_types):	
 									if b.trials[i].result==1:										
-										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									all_res_matrix[subj_nr].append(b.trials[i].result);
-								elif ((b.trials[i-1].trial_type in trial_types)==False)&(b.trials[i].trial_type in trial_types):
-									if b.trials[i].result==1:										
-										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
-									all_res_matrix[subj_nr].append(b.trials[i].result);									
+										sing_all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									sing_all_res_matrix[subj_nr].append(b.trials[i].result);
+									
+									
+									
+									
+									
+									
+									
+									
 							if (nback==1):
 								#1 back only (1 repetition)
 								if b.trials[i].trial_nr==0:
@@ -67,6 +89,12 @@ def analyzeNBack(block_matrix, id):
 									if b.trials[i].result==1:
 										all_rt_matrix[subj_nr].append(b.trials[i].response_time);
 									all_res_matrix[subj_nr].append(b.trials[i].result);
+									
+									
+									
+									
+									
+									
 							if (nback==2):
 								#2 back and 1 back (2 repetitions)
 								if (b.trials[i].trial_nr==0)|(b.trials[i].trial_nr==1):
