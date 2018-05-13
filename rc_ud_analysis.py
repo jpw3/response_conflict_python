@@ -67,8 +67,8 @@ def analyzeNBack(block_matrix, id):
 				db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,type,name,test_name)]=mean(rts);	db['%s_UD_%s_%s_prev_trial_%s_median_rt'%(id,type,name,test_name)]=median(rts);	db['%s_UD_%s_%s_prev_trial_%s_var_rt'%(id,type,name,test_name)]=var(rts);
 				db['%s_UD_%s_%s_prev_trial_%s_pc'%(id,type,name,test_name)]=pc(res);
 				if id=='agg':
-					db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(rt_matrix, 'time');
-					db['%s_UD_%s_%s_prev_trial_%s_pc_bs_sems'%(id,type,name,nback)]=compute_BS_SEM(res_matrix, 'pc');	
+					db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,type,name,test_name)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_prev_trial_%s_pc_bs_sems'%(id,type,name,test_namea)]=compute_BS_SEM(res_matrix, 'pc');	
 					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
 						data.loc[index_counter] = [i,type,name,test_name,mean(r_scores),pc(res_scores),];
 						index_counter+=1;				

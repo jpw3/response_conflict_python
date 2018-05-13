@@ -41,114 +41,115 @@ matplotlib.pyplot.rc('font',weight='bold');
 
 #plot the Nback
 #bottom up first
-fig , (ax1, ax2, ax3, ax4) = subplots(2,2,figsize = (12.8,7.64)); fig.suptitle('Bottom-up previous trial type analysis, UP-DOWN task, subject %s'%id, size = 22);
+fig , (ax) = subplots(2,2,figsize = (12.8,7.64)); fig.suptitle('Bottom-up previous trial type analysis, UP-DOWN task, subject %s'%id, size = 22);
+ax1 = ax[0][0]; ax2 = ax[0][1]; ax3 = ax[1][0]; ax4 = ax[1][1];
 colors = ['dodgerblue',(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
 ax1.set_ylim(600,900); ax1.set_yticks(arange(650,901,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6, 2.2, 2.8]);
-ax1.set_title('Current trial: single_target', size = 18, position = (.5, 0.9));
+ax1.set_title('Current trial: ST', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Trial Type ',size=18);
-ax1.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax1.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax1.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','single_target',type)]], color = c, lw = 5.0);
+    ax1.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','single_target',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax1.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','single_target',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','single_target',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b','single_target',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax1.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','single_target',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','single_target',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','single_target',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 
 ax2.set_ylim(600,900); ax2.set_yticks(arange(650,901,50)); ax2.set_xlim([0.7,3.1]); ax2.set_xticks([1,1.6, 2.2, 2.8]);
-ax2.set_title('Current trial: cong_per_cong_resp', size = 18, position = (.5, 0.9));
+ax2.set_title('Current trial: CP/CR', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Trial Type ',size=18);
-ax2.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax2.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax2.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','cong_per_cong_resp',type)]], color = c, lw = 5.0);
+    ax2.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','cong_per_cong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax2.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','cong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax2.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','cong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
 ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
 ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 
 ax3.set_ylim(600,900); ax3.set_yticks(arange(650,901,50)); ax3.set_xlim([0.7,3.1]); ax3.set_xticks([1,1.6, 2.2, 2.8]);
-ax3.set_title('Current trial: incong_per_cong_resp', size = 18, position = (.5, 0.9));
+ax3.set_title('Current trial: IP/CR', size = 18, position = (.5, 0.9));
 ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Trial Type ',size=18);
-ax3.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax3.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax3.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_cong_resp',type)]], color = c, lw = 5.0);
+    ax3.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_cong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax3.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax3.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax3.spines['right'].set_visible(False); ax3.spines['top'].set_visible(False);
 ax3.spines['bottom'].set_linewidth(2.0); ax3.spines['left'].set_linewidth(2.0);
 ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 
 ax4.set_ylim(600,900); ax4.set_yticks(arange(650,901,50)); ax4.set_xlim([0.7,3.1]); ax4.set_xticks([1,1.6, 2.2, 2.8]);
-ax4.set_title('Current trial: incong_per_incong_resp', size = 18, position = (.5, 0.9));
+ax4.set_title('Current trial: IP/IR', size = 18, position = (.5, 0.9));
 ax4.set_ylabel('Response time',size=18); ax3.set_xlabel('Trial Type ',size=18);
-ax4.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax4.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax4.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_incong_resp',type)]], color = c, lw = 5.0);
+    ax4.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_incong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax4.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_incong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax4.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'b','incong_per_incong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax4.spines['right'].set_visible(False); ax4.spines['top'].set_visible(False);
 ax4.spines['bottom'].set_linewidth(2.0); ax4.spines['left'].set_linewidth(2.0);
 ax4.yaxis.set_ticks_position('left'); ax4.xaxis.set_ticks_position('bottom');
 show();
-
 
 
 #top down version second
-fig , (ax1, ax2, ax3, ax4) = subplots(2,2,figsize = (12.8,7.64)); fig.suptitle('Top-down previous trial type analysis, UP-DOWN task, subject %s'%id, size = 22);
+fig , (ax) = subplots(2,2,figsize = (12.8,7.64)); fig.suptitle('Top-down previous trial type analysis, UP-DOWN task, subject %s'%id, size = 22);
+ax1 = ax[0][0]; ax2 = ax[0][1]; ax3 = ax[1][0]; ax4 = ax[1][1];
 colors = ['dodgerblue',(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
 ax1.set_ylim(600,900); ax1.set_yticks(arange(650,901,50)); ax1.set_xlim([0.7,3.1]); ax1.set_xticks([1,1.6, 2.2, 2.8]);
-ax1.set_title('Current trial: single_target', size = 18, position = (.5, 0.9));
+ax1.set_title('Current trial: ST', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Trial Type ',size=18);
-ax1.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax1.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax1.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','single_target',type)]], color = c, lw = 5.0);
+    ax1.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','single_target',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax1.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','single_target',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','single_target',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t','single_target',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax1.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','single_target',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','single_target',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','single_target',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
 ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
 ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
 
 ax2.set_ylim(600,900); ax2.set_yticks(arange(650,901,50)); ax2.set_xlim([0.7,3.1]); ax2.set_xticks([1,1.6, 2.2, 2.8]);
-ax2.set_title('Current trial: cong_per_cong_resp', size = 18, position = (.5, 0.9));
+ax2.set_title('Current trial: CP/CR', size = 18, position = (.5, 0.9));
 ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Trial Type ',size=18);
-ax2.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax2.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax2.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','cong_per_cong_resp',type)]], color = c, lw = 5.0);
+    ax2.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','cong_per_cong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax2.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','cong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax2.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','cong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','cong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
 ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
 ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
 
 ax3.set_ylim(600,900); ax3.set_yticks(arange(650,901,50)); ax3.set_xlim([0.7,3.1]); ax3.set_xticks([1,1.6, 2.2, 2.8]);
-ax3.set_title('Current trial: incong_per_cong_resp', size = 18, position = (.5, 0.9));
+ax3.set_title('Current trial: IP/CR', size = 18, position = (.5, 0.9));
 ax3.set_ylabel('Response time',size=18); ax3.set_xlabel('Trial Type ',size=18);
-ax3.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax3.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax3.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_cong_resp',type)]], color = c, lw = 5.0);
+    ax3.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_cong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax3.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax3.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_cong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_cong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax3.spines['right'].set_visible(False); ax3.spines['top'].set_visible(False);
 ax3.spines['bottom'].set_linewidth(2.0); ax3.spines['left'].set_linewidth(2.0);
@@ -156,22 +157,20 @@ ax3.yaxis.set_ticks_position('left'); ax3.xaxis.set_ticks_position('bottom');
 
 
 ax4.set_ylim(600,900); ax4.set_yticks(arange(650,901,50)); ax4.set_xlim([0.7,3.1]); ax4.set_xticks([1,1.6, 2.2, 2.8]);
-ax4.set_title('Current trial: incong_per_incong_resp', size = 18, position = (.5, 0.9));
+ax4.set_title('Current trial: IP/IR', size = 18, position = (.5, 0.9));
 ax4.set_ylabel('Response time',size=18); ax3.set_xlabel('Trial Type ',size=18);
-ax4.set_xticklabels(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']);
+ax4.set_xticklabels(['ST','CP/CR','IP/CR','IP/IR']);
 x=1;
 for type, c in zip(['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp'], colors):    
-    ax4.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_incong_resp',type)]], color = c, lw = 5.0);
+    ax4.plot([x], [db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_incong_resp',type)]], color = c, markersize = 12.0, marker = 'o');
     if id=='agg':
-     ax4.errorbar(1,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_incong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp',type)]],
-         [db['%s_UD_%s_%s_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
+     ax4.errorbar(x,db['%s_UD_%s_%s_prev_trial_%s_mean_rt'%(id,'t','incong_per_incong_resp',type)],yerr=[[db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp',type)]],
+         [db['%s_UD_%s_%s_prev_trial_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp',type)]]],color=c,lw=6.0,capsize = 12);    
     x+=0.6;
 ax4.spines['right'].set_visible(False); ax4.spines['top'].set_visible(False);
 ax4.spines['bottom'].set_linewidth(2.0); ax4.spines['left'].set_linewidth(2.0);
 ax4.yaxis.set_ticks_position('left'); ax4.xaxis.set_ticks_position('bottom');
 show();
-
-
 
 
 

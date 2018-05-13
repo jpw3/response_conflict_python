@@ -15,6 +15,8 @@ sub_id,type,congruency,mean_rt,pc
 14.0,b,cong_per_cong_resp,567.120088008,0.916666666667
 15.0,b,cong_per_cong_resp,833.919768851,0.916666666667
 16.0,b,cong_per_cong_resp,779.472719786,0.944444444444
+17.0,b,cong_per_cong_resp,952.218597105,0.944444444444
+18.0,b,cong_per_cong_resp,774.807198117,0.972222222222
 1.0,b,incong_per_cong_resp,708.155089668,0.805555555556
 2.0,b,incong_per_cong_resp,722.650377904,0.833333333333
 3.0,b,incong_per_cong_resp,850.915332067,0.944444444444
@@ -31,6 +33,8 @@ sub_id,type,congruency,mean_rt,pc
 14.0,b,incong_per_cong_resp,583.873102265,0.944444444444
 15.0,b,incong_per_cong_resp,798.021778279,1.0
 16.0,b,incong_per_cong_resp,750.446922393,0.944444444444
+17.0,b,incong_per_cong_resp,923.513210872,0.888888888889
+18.0,b,incong_per_cong_resp,709.277395244,0.944444444444
 1.0,b,incong_per_incong_resp,740.10985755,1.0
 2.0,b,incong_per_incong_resp,817.536918611,1.0
 3.0,b,incong_per_incong_resp,892.444040772,1.0
@@ -47,6 +51,8 @@ sub_id,type,congruency,mean_rt,pc
 14.0,b,incong_per_incong_resp,633.051299356,1.0
 15.0,b,incong_per_incong_resp,910.26917441,1.0
 16.0,b,incong_per_incong_resp,815.982221308,1.0
+17.0,b,incong_per_incong_resp,1011.97199197,1.0
+18.0,b,incong_per_incong_resp,730.034697028,1.0
 1.0,t,cong_per_cong_resp,706.718759137,0.944444444444
 2.0,t,cong_per_cong_resp,701.884238963,0.916666666667
 3.0,t,cong_per_cong_resp,678.847747198,1.0
@@ -63,6 +69,8 @@ sub_id,type,congruency,mean_rt,pc
 14.0,t,cong_per_cong_resp,513.886832277,0.944444444444
 15.0,t,cong_per_cong_resp,700.854717758,1.0
 16.0,t,cong_per_cong_resp,631.285393981,0.972222222222
+17.0,t,cong_per_cong_resp,826.288129352,0.944444444444
+18.0,t,cong_per_cong_resp,655.50843361,0.916666666667
 1.0,t,incong_per_cong_resp,650.259872125,0.944444444444
 2.0,t,incong_per_cong_resp,678.552643067,0.972222222222
 3.0,t,incong_per_cong_resp,721.131500805,0.944444444444
@@ -79,6 +87,8 @@ sub_id,type,congruency,mean_rt,pc
 14.0,t,incong_per_cong_resp,523.240584288,0.916666666667
 15.0,t,incong_per_cong_resp,697.400584612,0.972222222222
 16.0,t,incong_per_cong_resp,635.592665718,0.972222222222
+17.0,t,incong_per_cong_resp,777.087705763,0.944444444444
+18.0,t,incong_per_cong_resp,613.550078019,1.0
 1.0,t,incong_per_incong_resp,713.063923979,1.0
 2.0,t,incong_per_incong_resp,715.906990656,1.0
 3.0,t,incong_per_incong_resp,767.687939947,1.0
@@ -95,3 +105,5 @@ sub_id,type,congruency,mean_rt,pc
 14.0,t,incong_per_incong_resp,536.790101762,1.0
 15.0,t,incong_per_incong_resp,708.523511583,1.0
 16.0,t,incong_per_incong_resp,636.955421479,1.0
+17.0,t,incong_per_incong_resp,820.767226282,1.0
+18.0,t,incong_per_incong_resp,624.502795023,1.0
