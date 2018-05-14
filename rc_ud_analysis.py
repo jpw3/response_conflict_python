@@ -43,7 +43,7 @@ def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 	for type in ['b','t']: 
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
 		#for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
-		for trial_types, name, response in zip([arange(1,9),(17,18),(21),arange(9,17),(19,20),(22)],['single_target','cong_per_cong_resp','incong_per_cong_resp','single_target','cong_per_cong_resp','incong_per_cong_resp'],['up','up','up','down','down','down']):
+		for trial_types, name, response in zip([arange(1,9),(17,18),[21],arange(9,17),(19,20),[22]],['single_target','cong_per_cong_resp','incong_per_cong_resp','single_target','cong_per_cong_resp','incong_per_cong_resp'],['up','up','up','down','down','down']):
 			#do a general response breakdwon irrespective of of the trial types as well
 			for aggregated_trial_types, aggregated_response in zip([[1,2,3,4,5,6,7,8,17,18,21],[9,10,11,12,13,14,15,16,19,20,22]],['up','down']):
 				all_rt_matrix = [[] for su in block_matrix];
@@ -74,11 +74,11 @@ def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 					db['%s_UD_%s_%s_%s_response_%s_prev_response_rt_bs_sems'%(id,type,name,response,aggregated_response)]=compute_BS_SEM(rt_matrix, 'time');
 					db['%s_UD_%s_%s_%s_response_%s_prev_response_pc_bs_sems'%(id,type,name,response,aggregated_response)]=compute_BS_SEM(res_matrix, 'pc');			
 					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
-						prev_response_aggregated_data.loc[index_counter] = [i,type,name,response,aggregated_response,mean(r_scores),pc(res_scores),];
+						prev_response_aggregated_data.loc[resp_index_counter] = [i,type,name,response,aggregated_response,mean(r_scores),pc(res_scores),];
 						resp_index_counter+=1;	
 
 			#this other loop acts to loop through for each trial type and response
-			for prev_trial_types, prev_name, prev_response in zip([arange(1,9),(17,18),(21),arange(9,17),(19,20),(22)],['single_target','cong_per_cong_resp','incong_per_cong_resp','single_target','cong_per_cong_resp','incong_per_cong_resp'],['up','up','up','down','down','down']):					
+			for prev_trial_types, prev_name, prev_response in zip([arange(1,9),(17,18),[21],arange(9,17),(19,20),[22]],['single_target','cong_per_cong_resp','incong_per_cong_resp','single_target','cong_per_cong_resp','incong_per_cong_resp'],['up','up','up','down','down','down']):					
 				all_rt_matrix = [[] for su in block_matrix];
 				all_res_matrix = [[] for su in block_matrix];					
 				index_counter=0;
@@ -108,14 +108,14 @@ def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 					db['%s_UD_%s_%s_%s_response_%s_prev_trialtype_%s_prev_response_pc_bs_sems'%(id,type,name,response,prev_name,prev_response)]=compute_BS_SEM(res_matrix, 'pc');	
 					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
 						prev_response_data.loc[index_counter] = [i,type,name,response,prev_name,prev_response,mean(r_scores),pc(res_scores),];
-						resp_index_counter+=1;	
+						index_counter+=1;	
 	db.sync();
 	if id=='agg':
 		prev_response_aggregated_data.to_csv(savepath+'prev_response_aggregated_across_trial_types.csv',index=False);	
 		prev_response_data.to_csv(savepath+'prev_response_each_trial_type.csv',index=False);
 
 
-def analyzePreviousTrialActualResponse(blocks, id):
+def analyzePreviousTrialActualResponse(block_matrix, id):
 	#analyzes NBack for the different trial types broken down by what the actual GIVEN response was (e.g., what response was given on the previous trial and what was given the curren trial)
 	if id=='agg':
 		db=subject_data;
@@ -162,7 +162,7 @@ def analyzePreviousTrialActualResponse(blocks, id):
 							db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_pc_bs_sems'%(id,type,name,response,prev_name,prev_response)]=compute_BS_SEM(res_matrix, 'pc');	
 							for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
 								prev_actual_response_data.loc[index_counter] = [i,type,name,response,prev_name,prev_response,mean(r_scores),pc(res_scores),];
-								resp_index_counter+=1;
+								index_counter+=1;
 								
 		#now collapse across all trial types together
 		for current_response in ['up','down']:
@@ -207,7 +207,7 @@ def analyzePreviousTrialActualResponse(blocks, id):
 		
 
 
-def AnalyzeCongruencyPrevTrial(blocks, id):
+def AnalyzeCongruencyPrevTrial(block_matrix, id):
 	if id=='agg':
 		db=subject_data;
 		perceptual_congruence_data = pd.DataFrame(columns = ['sub_id','type','current_percept','prev_percept','mean_rt','pc']);
