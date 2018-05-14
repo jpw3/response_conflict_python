@@ -115,6 +115,99 @@ def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 		prev_response_data.to_csv(savepath+'prev_response_each_trial_type.csv',index=False);
 
 
+def analyzePreviousTrialActualResponse(blocks, id):
+	#analyzes NBack for the different trial types broken down by what the actual GIVEN response was (e.g., what response was given on the previous trial and what was given the curren trial)
+	if id=='agg':
+		db=subject_data;
+		prev_aggregated_actual_response_data = pd.DataFrame(columns = ['sub_id','type','current_response','prev_response','mean_rt','pc']);
+		prev_actual_response_data = pd.DataFrame(columns = ['sub_id','type','trial_type','current_response','prev_trial_type','prev_response','mean_rt','pc']);
+	else:
+		db=individ_subject_data;
+	# break the nback analysis down by trial type	
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+		for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+			for response in ['up','down']:
+				for prev_trial_types, prev_name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+					for prev_response in ['up','down']:
+						all_rt_matrix = [[] for su in block_matrix];
+						all_res_matrix = [[] for su in block_matrix];					
+						index_counter=0;
+						for subj_nr,blocks in enumerate(block_matrix):
+							for b in blocks:
+								if b.block_type!=type:
+									continue;
+								for i in arange(0,len(b.trials)):
+									# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+									#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+									if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+										foo='bar';
+									elif ((b.trials[i-1].trial_type in prev_trial_types))&(b.trials[i-1].selected_type==prev_response)&(b.trials[i].trial_type in trial_types)&(b.trials[i].selected_type==response):	
+										if b.trials[i].result==1:										
+											all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+										all_res_matrix[subj_nr].append(b.trials[i].result);
+						ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+						rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+						res_matrix = all_res_matrix;
+						rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+						if len(rts)==0:
+							continue;
+							1/0										
+						db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_mean_rt'%(id,type,name,response,prev_name,prev_response)]=mean(rts);	db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_median_rt'%(id,type,name,response,prev_name,prev_response)]=median(rts);
+						db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_var_rt'%(id,type,name,response,prev_name,prev_response)]=var(rts);
+						db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_pc'%(id,type,name,response,prev_name,prev_response)]=pc(res);				
+						if id=='agg':
+							db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_rt_bs_sems'%(id,type,name,response,prev_name,prev_response)]=compute_BS_SEM(rt_matrix, 'time');
+							db['%s_UD_%s_%s_%s_actualresponse_%s_prev_trialtype_%s_prev_actualresponse_pc_bs_sems'%(id,type,name,response,prev_name,prev_response)]=compute_BS_SEM(res_matrix, 'pc');	
+							for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+								prev_actual_response_data.loc[index_counter] = [i,type,name,response,prev_name,prev_response,mean(r_scores),pc(res_scores),];
+								resp_index_counter+=1;
+								
+		#now collapse across all trial types together
+		for current_response in ['up','down']:
+			for prev_response in ['up','down']:
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
+				index_counter=0;
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if b.block_type!=type:
+							continue;
+						for i in arange(0,len(b.trials)):
+							# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+							#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+							if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+								foo='bar';
+							elif (b.trials[i-1].selected_type==prev_response)&(b.trials[i].selected_type==current_response):	
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0									
+				db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_mean_rt'%(id,type,current_response,prev_response)]=mean(rts);	db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_median_rt'%(id,type,current_response,prev_response)]=median(rts);
+				db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_var_rt'%(id,type,current_response,prev_response)]=var(rts);
+				db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_pc'%(id,type,current_response,prev_response)]=pc(res);									
+				if id=='agg':
+					db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_rt_bs_sems'%(id,type,current_response,prev_response)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_aggtrials_%s_actualresponse_aggtrialtype_%s_prev_actualresponse_pc_bs_sems'%(id,type,current_response,prev_response)]=compute_BS_SEM(res_matrix, 'pc');	
+					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+						prev_aggregated_actual_response_data.loc[index_counter] = [i,type,current_response,prev_response,mean(r_scores),pc(res_scores),];
+						index_counter+=1;								
+								
+	db.sync();		
+	if id=='agg':
+		prev_actual_response_data.to_csv(savepath+'prev_each_trialtype_actual_responses.csv',index=False);	
+		prev_aggregated_actual_response_data.to_csv(savepath+'aggregated_current_and_prev_response.csv',index=False);		
+		
+
+
+
 def analyzePrevTrial(block_matrix, id):
 	#analyzes NBack for the different trial types
 	if id=='agg':
