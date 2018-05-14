@@ -207,6 +207,91 @@ def analyzePreviousTrialActualResponse(blocks, id):
 		
 
 
+def AnalyzeCongruencyPrevTrial(blocks, id):
+	if id=='agg':
+		db=subject_data;
+		perceptual_congruence_data = pd.DataFrame(columns = ['sub_id','type','current_percept','prev_percept','mean_rt','pc']);
+		response_congruence_data = pd.DataFrame(columns = ['sub_id','type','current_response','prev_response','mean_rt','pc']);
+	else:
+		db=individ_subject_data;	
+	# break the nback analysis down by trial type	
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']:
+		#perceptual incongruence first, e.g. was the percept being the same (e.g., two left shapes, or two right shapes) or not on trial N-1 predictive of RT depedning on if trial N was congruent or not
+		for trial_types, name in zip([(17,18,19,20),(21,22,23,24,25,26)],['same_percept','different_percept']):
+			for prev_trial_types, prev_name in zip([(17,18,19,20),(21,22,23,24,25,26)],['same_percept','different_percept']):
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
+				index_counter=0;
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if b.block_type!=type:
+							continue;
+						for i in arange(0,len(b.trials)):
+							# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+							#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+							if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+								foo='bar';
+							elif (b.trials[i-1].trial_type==prev_trial_types)&(b.trials[i].trial_type==trial_types):	
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);		
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0		
+				db['%s_UD_%s_%s_%s_prev_trial_mean_rt'%(id,type,name,prev_name)]=mean(rts);	db['%s_UD_%s_%s_%s_prev_trial_median_rt'%(id,type,name,prev_name)]=median(rts);
+				db['%s_UD_%s_%s_%s_prev_trial_var_rt'%(id,type,name,prev_name)]=var(rts);
+				db['%s_UD_%s_%s_%s_prev_trial_pc'%(id,type,name,prev_name)]=pc(res);		
+				if id=='agg':
+					db['%s_UD_%s_%s_%s_prev_trial_rt_bs_sems'%(id,type,name,prev_name)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_%s_prev_trial_pc_bs_sems'%(id,type,name,prev_name)]=compute_BS_SEM(res_matrix, 'pc');
+					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+						perceptual_congruence_data.loc[index_counter] = [i,type,name,prev_name,mean(r_scores),pc(res_scores),];
+						index_counter+=1;
+		#next run the anaylsis according to the congruence across trials of responses						
+		for trial_types, name in zip([(17,18,19,20,21,22),(23,24,25,26)],['same_response','different_response']):
+			for prev_trial_types, prev_name in zip([(17,18,19,20,21,22),(23,24,25,26)],['same_response','different_response']):
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
+				index_counter=0;
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if b.block_type!=type:
+							continue;
+						for i in arange(0,len(b.trials)):
+							# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+							#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+							if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+								foo='bar';
+							elif (b.trials[i-1].trial_type==prev_trial_types)&(b.trials[i].trial_type==trial_types):	
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0										
+				db['%s_UD_%s_%s_%s_prev_trial_mean_rt'%(id,type,name,prev_name)]=mean(rts);	db['%s_UD_%s_%s_%s_prev_trial_median_rt'%(id,type,name,prev_name)]=median(rts);
+				db['%s_UD_%s_%s_%s_prev_trial_var_rt'%(id,type,name,prev_name)]=var(rts);
+				db['%s_UD_%s_%s_%s_prev_trial_pc'%(id,type,name,prev_name)]=pc(res);		
+				if id=='agg':
+					db['%s_UD_%s_%s_%s_prev_trial_rt_bs_sems'%(id,type,name,prev_name)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_%s_prev_trial_pc_bs_sems'%(id,type,name,prev_name)]=compute_BS_SEM(res_matrix, 'pc');								
+					for i,r_scores,res_scores in zip(linspace(1,len(rt_matrix),len(rt_matrix)),rt_matrix,res_matrix):
+						response_congruence_data.loc[index_counter] = [i,type,name,prev_name,mean(r_scores),pc(res_scores),];
+						index_counter+=1;								
+	db.sync();		
+	if id=='agg':
+		perceptual_congruence_data.to_csv(savepath+'perceptual_congruence.csv',index=False);	
+		response_congruence_data.to_csv(savepath+'response_congruence.csv',index=False);								
+								
 
 def analyzePrevTrial(block_matrix, id):
 	#analyzes NBack for the different trial types
