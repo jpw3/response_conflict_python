@@ -233,15 +233,68 @@ def analyzePreviousTrialActualResponse(block_matrix, id):
 						rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
 						if len(rts)==0:
 							continue;
-							1/0										
+							1/0
+							
 						db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_mean_rt'%(id,type,name,prev_name,prev_cong)]=mean(rts); db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_median_rt'%(id,type,name,prev_name,prev_cong)]=median(rts);
 						db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_var_rt'%(id,type,name,prev_name,prev_cong)]=var(rts);
 						db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_pc'%(id,type,name,prev_name,prev_cong)]=pc(res);
 						db.sync();
 						if id=='agg':
 							db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_rt_bs_sems'%(id,type,name,prev_name,prev_cong)]=compute_BS_SEM(rt_matrix, 'time');
-							db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_pc_bs_sems'%(id,type,name,prev_name,prev_cong)]=compute_BS_SEM(res_matrix, 'pc');	
+							db['%s_UD_%s_%s_%s_prev_trialtype_%s_actualresponse_pc_bs_sems'%(id,type,name,prev_name,prev_cong)]=compute_BS_SEM(res_matrix, 'pc');
+							
+							
+	### Here, run the same analysis as above but isubtract the top-down means from each participant as if it were a 'baseline' condition. Idea is to determine if the response mapping/some weirdness in the data is special to the bottom up case
+	#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+	for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+			for prev_trial_types, prev_name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+				for prev_cong, bool in zip(['congruent','incongruent'],[1,0]):	
+					bu_all_rt_matrix = [[] for su in block_matrix];
+					bu_all_res_matrix = [[] for su in block_matrix];
+					td_all_rt_matrix = [[] for su in block_matrix];
+					td_all_res_matrix = [[] for su in block_matrix];					
+					index_counter=0;	
+					for subj_nr,blocks in enumerate(block_matrix):
+						for b in blocks:
+							for i in arange(0,len(b.trials)):
+								# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+								#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+								if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+									foo='bar';
+								elif ((b.trials[i-1].trial_type in prev_trial_types))&(b.trials[i].trial_type in trial_types)&((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool)&(b.block_type=='b'):	
+									if b.trials[i].result==1:										
+										bu_all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									bu_all_res_matrix[subj_nr].append(b.trials[i].result);	
+								elif ((b.trials[i-1].trial_type in prev_trial_types))&(b.trials[i].trial_type in trial_types)&((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool)&(b.block_type=='t'):	
+									if b.trials[i].result==1:										
+										td_all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+									td_all_res_matrix[subj_nr].append(b.trials[i].result);								
+					#bottom up versions
+					bu_ind_rt_sds=[std(are) for are in bu_all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					bu_rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(bu_all_rt_matrix,bu_ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+					bu_res_matrix = bu_all_res_matrix;
+					#top down versions
+					td_ind_rt_sds=[std(are) for are in td_all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					td_rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(td_all_rt_matrix,td_ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+					td_res_matrix = td_all_res_matrix;				
+						
+					#now compute the difference between top-down and bottom-up
+					rts = [mean(bu)-mean(td) for bu,td in zip(bu_rt_matrix, td_rt_matrix)];
+					res = [pc(bu)-pc(td) for bu,td in zip(bu_res_matrix, td_res_matrix)];
 					
+					#in case this condition isn't possible...
+					if len([r for r in rts])==0:
+						#continue;
+						1/0
+					
+					#save the data
+					db['%s_UD_BUTD_diffference_%s_%s_prev_trialtype_%s_actualresponse_mean_rt'%(id,name,prev_name,prev_cong)]=nanmean(rts);
+					db['%s_UD_BUTD_diffference_%s_%s_prev_trialtype_%s_actualresponse_pc'%(id,name,prev_name,prev_cong)]=mean(res);
+					db.sync();					
+					if id=='agg':
+						db['%s_UD_BUTD_diffference_%s_%s_prev_trialtype_%s_actualresponse_rt_bs_sems'%(id,name,prev_name,prev_cong)]=compute_BS_SEM_from_means(rts, 'time');
+						db['%s_UD_BUTD_diffference_%s_%s_prev_trialtype_%s_actualresponse_pc_bs_sems'%(id,name,prev_name,prev_cong)]=compute_BS_SEM_from_means(res, 'pc');					
+										
 	db.sync();		
 	if id=='agg':
 		prev_actual_response_data.to_csv(savepath+'prev_each_trialtype_actual_responses.csv',index=False);	
@@ -671,13 +724,13 @@ def compute_BS_SEM(data_matrix, type):
 	n = len(data_matrix);
 	if type=='time':
 		grand_mean = mean(agg_data);
-		matrix = [[dee for dee in datas] for datas in data_matrix]
+		matrix = [[dee for dee in datas] for datas in data_matrix];
 		err = [mean(d) for d in matrix if (len(d)>0)]-grand_mean;
 		squared_err = err**2;
 		MSE = sum(squared_err)/(n-1);
 	elif type=='pc':
 		grand_pc = pc(agg_data);
-		matrix = [[dee for dee in datas] for datas in data_matrix]
+		matrix = [[dee for dee in datas] for datas in data_matrix];
 		err = [pc(d) for d in matrix if (len(d)>0)]-grand_pc;
 		squared_err = err**2;
 		MSE = sum(squared_err)/(n-1);
@@ -685,6 +738,29 @@ def compute_BS_SEM(data_matrix, type):
 	standard_error_estimate=sqrt(MSE)/float(denom);
 	return standard_error_estimate;
 
+
+#compute the Bs SEMS using a matrix of means, as well
+#designed to deal with NaNs by cutting them out of the analysis
+def compute_BS_SEM_from_means(mean_matrix, type):
+    #calculate the between-subjects standard error of the mean. data_matrix should be matrix of subjet means
+    #should only pass data matrix into this function after segmenting into relevant conditions
+	if type=='time':
+		grand_mean = nanmean(mean_matrix);
+		err = mean_matrix-grand_mean;
+		squared_err = err**2;
+		non_nans = [r for r in squared_err if ~(isnan(r))]	
+		MSE = sum(non_nans)/(len(non_nans)-1);
+		n = len(non_nans);
+	elif type=='pc':
+		grand_pc = nanmean(mean_matrix);
+		err = mean_matrix-grand_pc;
+		squared_err = err**2;
+		non_nans = [r for r in squared_err if ~(isnan(r))]	
+		MSE = sum(non_nans)/(len(non_nans)-1);
+		n = len(non_nans);
+	denom = sqrt(n);
+	standard_error_estimate=sqrt(MSE)/float(denom);
+	return standard_error_estimate;
 
 ## Data Importation Functions ################################################################################################
 
