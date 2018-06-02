@@ -14,9 +14,9 @@ import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # '/Volumes/WORK_HD/data/temp_resp/'; # 
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath =  '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/data/'; #
+datapath = '/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # 
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -29,6 +29,47 @@ ids=['ud1','ud2','ud4','ud5','ud6','ud7','ud8','ud9','ud10','ud11','ud12','ud13'
 
 #Top: 1-8 ; 17, 18; 21
 #bottom: 9-16 ; 19, 20; 22
+
+def analyzePrevTrialDifferentTrialTypeResponses(block_matrix, id):
+	#check whether the previous trial, which is different from the current trial, is different depending on if prev response was same or diff from current
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	for type in ['b','t']: 
+		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+		for trial_types, name in zip([arange(1,17),(17,18,19,20),(21,22),(23,24,25,26)],['single_target','cong_per_cong_resp','incong_per_cong_resp','incong_per_incong_resp']):
+			for prev_resp_repeat, bool in zip(['repeat','switch'],[1,0]):
+				all_rt_matrix = [[] for su in block_matrix];
+				all_res_matrix = [[] for su in block_matrix];					
+				resp_index_counter=0;			
+				for subj_nr,blocks in enumerate(block_matrix):
+					for b in blocks:
+						if b.block_type!=type:
+							continue;			
+						for i in arange(0,len(b.trials)):			
+							if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+								foo='bar';
+							elif (not(b.trials[i-1].trial_type in trial_types))&(b.trials[i].trial_type in trial_types)& \
+							((b.trials[i-1].selected_type==b.trials[i].selected_type)==bool):
+								if b.trials[i].result==1:										
+									all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+								all_res_matrix[subj_nr].append(b.trials[i].result);									
+				ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+				rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+				res_matrix = all_res_matrix;
+				rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+				if len(rts)==0:
+					continue;
+					1/0								
+				db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,type,name,prev_resp_repeat)]=mean(rts);	db['%s_UD_%s_%s_%s_previstrial_response_median_rt'%(id,type,name,prev_resp_repeat)]=median(rts);
+				db['%s_UD_%s_%s_%s_previstrial_response_var_rt'%(id,type,name,prev_resp_repeat)]=var(rts);
+				db['%s_UD_%s_%s_%s_previstrial_response_pc'%(id,type,name,prev_resp_repeat)]=pc(res);
+				db.sync();
+				if id=='agg':
+					db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,type,name,prev_resp_repeat)]=compute_BS_SEM(rt_matrix, 'time');
+					db['%s_UD_%s_%s_%s_previstrial_response_pc_bs_sems'%(id,type,name,prev_resp_repeat)]=compute_BS_SEM(res_matrix, 'pc');									
+	db.sync();								
 
 def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 	#analyzes NBack for the different trial types broken down by what the actual potential correct response was (e.g., what trial type previously had as the correct response... the incong/ncong trial type won't have a brewkdon by this)

@@ -12,9 +12,9 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # '/Users/james/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -35,6 +35,128 @@ matplotlib.rcParams['xtick.major.size']=10.0; matplotlib.rcParams['ytick.major.s
 matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger than the default case
 matplotlib.rcParams['hatch.color'] = 'black';
 matplotlib.pyplot.rc('font',weight='bold');
+
+# ##########################################################################################################################################################
+# ## Previous trial type by response repetition for trial types that WEREN'T congruent ##
+# ##########################################################################################################################################################
+
+fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Response repetition, given previous trial type was different, subject %s'%id, size = 22);
+colors = ['dodgerblue',(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
+ax1.set_xlim([0.5,4.5]); ax1.set_xticks([1.0, 2.0, 3.0, 4.0]); ax1.set_ylim(600, 850); ax1.set_yticks(arange(650,851,50));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Current Trial Type ',size=18);
+ax1.set_xticklabels(['One target','Same/\nSame','Different/\nSame','Different/\nDifferent']);
+#single target case first
+ax1.plot([0.85, 1.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','switch')]],\
+    color = colors[0], markersize = 12.0, marker = 'None', alpha = 1.0, lw = 6.0);
+ax1.plot(0.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','repeat')],\
+    color = colors[0], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(1.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','switch')],\
+    color = colors[0], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(0.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','single_target','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','single_target','repeat')]]],color=colors[0],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(1.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','single_target','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','single_target','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','single_target','switch')]]],color=colors[0],lw=6.0,capsize = 12, alpha = 1.0);
+#top down single target...
+ax1.plot([0.85, 1.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','switch')]],\
+    color = colors[0], markersize = 12.0, marker = 'None', alpha = 1.0, ls = 'dashed', lw = 6.0);
+ax1.plot(0.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','repeat')],\
+    color = colors[0], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(1.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','switch')],\
+    color = colors[0], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(0.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','single_target','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','single_target','repeat')]]],color=colors[0],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(1.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','single_target','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','single_target','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','single_target','switch')]]],color=colors[0],lw=6.0,capsize = 12, alpha = 1.0);
+#then, same/same trials
+ax1.plot([1.85, 2.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','switch')]],\
+    color = colors[1], markersize = 12.0, marker = 'None', alpha = 1.0, lw = 6.0);
+ax1.plot(1.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','repeat')],\
+    color = colors[1], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(2.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','switch')],\
+    color = colors[1], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(1.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','cong_per_cong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','cong_per_cong_resp','repeat')]]],color=colors[1],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(2.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','cong_per_cong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','cong_per_cong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','cong_per_cong_resp','switch')]]],color=colors[1],lw=6.0,capsize = 12, alpha = 1.0);
+#top down same/same...
+ax1.plot([1.85, 2.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','switch')]],\
+    color = colors[1], markersize = 12.0, marker = 'None', alpha = 1.0, ls = 'dashed', lw = 6.0);
+ax1.plot(1.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','repeat')],\
+    color = colors[1], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(2.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','switch')],\
+    color = colors[1], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(1.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','cong_per_cong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','cong_per_cong_resp','repeat')]]],color=colors[1],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(2.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','cong_per_cong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','cong_per_cong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','cong_per_cong_resp','switch')]]],color=colors[1],lw=6.0,capsize = 12, alpha = 1.0);
+#then, same/diff trials
+ax1.plot([2.85, 3.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','switch')]],\
+    color = colors[2], markersize = 12.0, marker = 'None', alpha = 1.0, lw = 6.0);
+ax1.plot(2.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','repeat')],\
+    color = colors[2], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(3.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','switch')],\
+    color = colors[2], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(2.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_cong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_cong_resp','repeat')]]],color=colors[2],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(3.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_cong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_cong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_cong_resp','switch')]]],color=colors[2],lw=6.0,capsize = 12, alpha = 1.0);
+#top down same/diff...
+ax1.plot([2.85, 3.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','switch')]],\
+    color = colors[2], markersize = 12.0, marker = 'None', alpha = 1.0, ls = 'dashed', lw = 6.0);
+ax1.plot(2.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','repeat')],\
+    color = colors[2], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(3.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','switch')],\
+    color = colors[2], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(2.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_cong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_cong_resp','repeat')]]],color=colors[2],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(3.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_cong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_cong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_cong_resp','switch')]]],color=colors[2],lw=6.0,capsize = 12, alpha = 1.0);
+#then, diff/diff trials
+ax1.plot([3.85, 4.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','switch')]],\
+    color = colors[3], markersize = 12.0, marker = 'None', alpha = 1.0, lw = 6.0);
+ax1.plot(3.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','repeat')],\
+    color = colors[3], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(4.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','switch')],\
+    color = colors[3], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(3.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_incong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_incong_resp','repeat')]]],color=colors[3],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(4.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'b','incong_per_incong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_incong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'b','incong_per_incong_resp','switch')]]],color=colors[3],lw=6.0,capsize = 12, alpha = 1.0);
+#top down diff/diff...
+ax1.plot([3.85, 4.15], [db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','repeat')], db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','switch')]],\
+    color = colors[3], markersize = 12.0, marker = 'None', alpha = 1.0, ls = 'dashed', lw = 6.0);
+ax1.plot(3.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','repeat')],\
+    color = colors[3], markersize = 18.0, marker = 'v', alpha = 1.0);
+ax1.plot(4.15,  db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','switch')],\
+    color = colors[3], markersize = 18.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(3.85, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','repeat')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_incong_resp','repeat')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_incong_resp','repeat')]]],color=colors[3],lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(4.15, db['%s_UD_%s_%s_%s_previstrial_response_mean_rt'%(id,'t','incong_per_incong_resp','switch')], yerr = [[db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_incong_resp','switch')]],
+        [db['%s_UD_%s_%s_%s_previstrial_response_rt_bs_sems'%(id,'t','incong_per_incong_resp','switch')]]],color=colors[3],lw=6.0,capsize = 12, alpha = 1.0);
+
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+#oneline=mlines.Line2D([],[],color='dodgerblue',lw=6,label='One target'); ssline=mlines.Line2D([],[],color=(75/255.0,0/255.0,130/255.0),lw=6,label='Same/Same');
+#dsline=mlines.Line2D([],[],color=(105/255.0,84/255.0,184/255.0),lw=6,label='Different/Same'); ddline=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Different/Different');
+#congline=mlines.Line2D([],[],color='black',lw=6,label='Congruent previous trial response', alpha = 1.0); incongline=mlines.Line2D([],[],color='black',lw=6,label='Incongruent previous trial response', alpha = 0.3);
+#ax1.legend(handles=[oneline,ssline,dsline,ddline],loc = 2, ncol=2, fontsize = 18);
+show();
+
+
+
+1/0
+
+
+
 
 
 # ##########################################################################################################################################################
