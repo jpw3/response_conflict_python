@@ -14,9 +14,9 @@ import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 
-datapath = '/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # 
-shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # '/Volumes/WORK_HD/data/temp_resp/'; # 
+shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
+savepath =  '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/data/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -165,6 +165,7 @@ def computeDiffPerceptDiffRespBreakdown(block_matrix, id):
 	#run this analysis separatel for the bottom up and top down blocks
 	for type in ['b','t']: 
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+		#target shapes = 1, top left    2, top right     3, bottom left      4, bottom right
 		for trial_types, name in zip([(23,24,25,26)],['incong_per_incong_resp']):
 			1/0
 		
