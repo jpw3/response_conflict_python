@@ -156,6 +156,19 @@ def analyzePrevTrialPotenialResponseBreakdown(block_matrix, id):
 		prev_response_data.to_csv(savepath+'prev_response_each_trial_type.csv',index=False);
 
 
+def computeDiffPerceptDiffRespBreakdown(block_matrix, id):
+	#analyze the different shape/different 
+	if id=='agg':
+		db=subject_data;
+	else:
+		db=individ_subject_data;
+	#run this analysis separatel for the bottom up and top down blocks
+	for type in ['b','t']: 
+		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
+		for trial_types, name in zip([(23,24,25,26)],['incong_per_incong_resp']):
+			1/0
+		
+
 def analyzePreviousTrialActualResponse(block_matrix, id):
 	#analyzes NBack for the different trial types broken down by what the actual GIVEN response was (e.g., what response was given on the previous trial and what was given the curren trial)
 	if id=='agg':
