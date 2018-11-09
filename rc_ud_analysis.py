@@ -684,6 +684,11 @@ def computeNT(trial_matrix, id='agg'):
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
 			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==nrt)] for ts in t_matrix];
 			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+			
+			if (type == 't')&(nrt==2):
+				1/0;
+			
+			
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)
 			db['%s_UD_%s_%s_targets_mean_rt'%(id,type,nrt)]=mean(rts);	db['%s_UD_%s_%s_targets_median_rt'%(id,type,nrt)]=median(rts);	db['%s_UD_%s_%s_targets_var_rt'%(id,type,nrt)]=var(rts);
