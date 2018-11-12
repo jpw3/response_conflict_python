@@ -12,9 +12,9 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # '/Users/james/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # 
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -35,6 +35,46 @@ matplotlib.rcParams['xtick.major.size']=10.0; matplotlib.rcParams['ytick.major.s
 matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger than the default case
 matplotlib.rcParams['hatch.color'] = 'black';
 matplotlib.pyplot.rc('font',weight='bold');
+
+
+# ##########################################################################################################################################################
+# ## Diff/Diff trials for current and previous, given response was the same, same shapes corresponding to response or not ##
+# ##########################################################################################################################################################
+
+fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Different/different trials, given response repetition, subject %s'%id, size = 22);
+c = (186/255.0,85/255.0,212/255.0);
+ax1.set_xlim([0.5,2.5]); ax1.set_xticks([1.0, 2.0]); ax1.set_ylim(600, 850); ax1.set_yticks(arange(650,851,50));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Task',size=18);
+ax1.set_xticklabels(['Bottom Up','Top Down']);
+ax1.plot(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], \
+                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]], \
+        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
+ax1.plot(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
+if id=='agg':
+    ax1.errorbar(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], \
+                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]], \
+        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
+ax1.plot(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], \
+                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]], \
+        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
+ax1.plot(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
+if id=='agg':
+    ax1.errorbar(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], \
+                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]], \
+        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+dd1line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape repeated', alpha = 1.0);
+dd2line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape switched', alpha = 0.5);
+ax1.legend(handles=[dd1line, dd2line],loc = 1, ncol=1, fontsize = 18);
+show();
+
+1/0
 
 # ##########################################################################################################################################################
 # ## Previous trial type by response repetition for trial types that WEREN'T congruent ##

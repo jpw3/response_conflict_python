@@ -14,9 +14,9 @@ import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 
-datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # '/Volumes/WORK_HD/data/temp_resp/'; # 
-shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
-savepath =  '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/data/'; #
+datapath = '/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # 
+shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
+savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -167,7 +167,55 @@ def computeDiffPerceptDiffRespBreakdown(block_matrix, id):
 		#cycle through the different types: resp cong, perc cong; resp cong, perc incong; respon incong, percept incong
 		#target shapes = 1, top left    2, top right     3, bottom left      4, bottom right
 		for trial_types, name in zip([(23,24,25,26)],['incong_per_incong_resp']):
-			1/0
+			for prev_trial_types, prev_name in zip([(23,24,25,26)],['incong_per_incong_resp']):
+				#determine if the previous trial was of the same trial type (diff/diff), and if the response was the same and then whether the target shape was the same
+				for shape_bool, same_shape in zip([1,0],['same_shapes','diff_shapes']):
+					all_rt_matrix = [[] for su in block_matrix];
+					all_res_matrix = [[] for su in block_matrix];					
+					index_counter=0;
+					for subj_nr,blocks in enumerate(block_matrix):
+						for b in blocks:
+							if b.block_type!=type:
+								continue;
+							for i in arange(0,len(b.trials)):			
+								# 0 nback is satisfied if the first trials in a block or if the previous trial was different
+								#however, for now exclude the first trial in a block because it can't be broken down by which trial type preceeded it
+								if (b.trials[i].trial_nr==0)&(b.trials[i].trial_type in trial_types):						
+									foo='bar';
+								elif ((b.trials[i-1].trial_type in prev_trial_types))&(b.trials[i].trial_type in trial_types): #first to check same trial type
+									if (b.trials[i-1].selected_type==b.trials[i].selected_type): #next to check same response
+										if (b.trials[i].selected_type == 'up'): #this conditional allows me to determine which shape needs to be matched or not
+											if (((any(b.trials[i].target_shapes)==1)&(any(b.trials[i-1].target_shapes)==1))| \
+											((any(b.trials[i].target_shapes)==2)&(any(b.trials[i-1].target_shapes)==2))==shape_bool): #check if shapes were both 1 or both 2
+												if b.trials[i].result==1:										
+													all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+												all_res_matrix[subj_nr].append(b.trials[i].result);													
+										elif (b.trials[i].selected_type=='down'):
+											if (((any(b.trials[i].target_shapes)==3)&(any(b.trials[i-1].target_shapes)==3))| \
+											((any(b.trials[i].target_shapes)==4)&(any(b.trials[i-1].target_shapes)==4))==shape_bool): #check if shapes were both 1 or both 2
+												if b.trials[i].result==1:										
+													all_rt_matrix[subj_nr].append(b.trials[i].response_time);
+												all_res_matrix[subj_nr].append(b.trials[i].result);									
+					ind_rt_sds=[std(are) for are in all_rt_matrix];  #get individual rt sds and il sds to 'shave' the rts of extreme outliers
+					rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean
+					res_matrix = all_res_matrix;
+					rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+					print "%s %s number of trials for each participant: \n"%(type, same_shape);
+					for goo in rt_matrix:
+						print '%3.0f'%(len(goo));
+					print '\n sum of trial numbers: %3.0f\n'%(sum([len(r) for r in rt_matrix]));	
+					if len(rts)==0:
+						continue;
+						1/0
+					db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,type,name,same_shape)]=mean(rts);	db['%s_UD_%s_%s_currentandprevtype_same_response_%s_median_rt'%(id,type,name,same_shape)]=median(rts);
+					db['%s_UD_%s_%s_currentandprevtype_same_response_%s_var_rt'%(id,type,name,same_shape)]=var(rts);
+					db['%s_UD_%s_%s_currentandprevtype_same_response_%s_pc'%(id,type,name,same_shape)]=pc(res);						
+					db.sync();
+					if id=='agg':								
+						db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,type,name,same_shape)]=compute_BS_SEM(rt_matrix, 'time');
+						db['%s_UD_%s_%s_currentandprevtype_same_response_%s_pc_bs_sems'%(id,type,name,same_shape)]=compute_BS_SEM(res_matrix, 'pc');
+	db.sync();
+								
 		
 
 def analyzePreviousTrialActualResponse(block_matrix, id):
