@@ -14,9 +14,9 @@ import pandas as pd
 pc = lambda x:sum(x)/float(len(x)); #create a percent correct lambda function
 
 
-datapath = '/Volumes/WORK_HD/data/temp_resp/'; # '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # 
-shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath =  '/Users/james/Documents/Python/response_conflict/data/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; # '/Volumes/WORK_HD/data/temp_resp/'; # 
+shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
+savepath =  '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; #'/Users/james/Documents/Python/response_conflict/data/'; #
 
 
 #import the persistent database to save data analysis for future use (plotting)
@@ -733,7 +733,9 @@ def computeNT(trial_matrix, id='agg'):
 			res_matrix = [[tee.result for tee in ts if(tee.nr_targets==nrt)] for ts in t_matrix];
 			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
 			
-			if (type == 't')&(nrt==2):
+			if (type == 'b')&(nrt==1):
+				poss = array([len([tee.response_time for tee in ts if ((tee.nr_targets==nrt)&(tee.block_type==type))]) for ts in trial_matrix]);
+				excluded = poss - array([len(gub) for gub in rt_matrix]);				
 				1/0;
 			
 			
@@ -776,6 +778,14 @@ def computeCongruency(trial_matrix, id = 'agg'):
 			rt_matrix=[[r for r in individ_rts if (r>=(mean(individ_rts)-(3*ind_rt_sd)))&(r<=(mean(individ_rts)+(3*ind_rt_sd)))] for individ_rts,ind_rt_sd in zip(all_rt_matrix,ind_rt_sds)]; #trim matrixed rts of outliers greater than 3 s.d.s from the mean			
 			res_matrix = [[tee.result for tee in ts if((tee.nr_targets==2)&(tee.trial_type in trial_types))] for ts in t_matrix];
 			rts = [r for y in rt_matrix for r in y]; res = [s for y in res_matrix for s in y];
+			
+			if (type == 'b')&(name == 'incong_per_incong_resp'):
+				poss = array([len([tee.response_time for tee in ts if ((tee.trial_type in trial_types)&(tee.block_type==type))]) for ts in trial_matrix]);
+				excluded = poss - array([len(gub) for gub in rt_matrix]);				
+				1/0;			
+			
+			
+			
 			if len(rts)==0:
 				continue; #skip computing and saving data if there was no data that matched the criteria (so the array is empty)			
 			db['%s_UD_%s_2_targets_%s_mean_rt'%(id,type,name)]=mean(rts);	db['%s_UD_%s_2_targets_%s_median_rt'%(id,type,name)]=median(rts);	db['%s_UD_%s_2_targets_%s_var_rt'%(id,type,name)]=var(rts);
