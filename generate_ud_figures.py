@@ -12,9 +12,9 @@ import shelve #for database writing and reading
 
 matplotlib.rcParams.update(matplotlib.rcParamsDefault); #restore the default matplotlib styles
 
-datapath = '/Users/james/Documents/MATLAB/data/response_conflict/'; #'/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #
-shelvepath =  '/Users/james/Documents/Python/response_conflict/data/';  #'/Users/jameswilmott/Documents/Python/response_conflict/data/'; #
-savepath = '/Users/james/Documents/Python/response_conflict/figures/'; #'/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # 
+datapath = '/Users/jameswilmott/Documents/MATLAB/data/response_conflict/'; #'/Users/james/Documents/MATLAB/data/response_conflict/'; #
+shelvepath =  '/Users/jameswilmott/Documents/Python/response_conflict/data/'; #'/Users/james/Documents/Python/response_conflict/data/';  #
+savepath = '/Users/jameswilmott/Documents/Python/response_conflict/figures/'; # '/Users/james/Documents/Python/response_conflict/figures/'; #
 
 #import the persistent database to save data analysis for future use (plotting)
 subject_data = shelve.open(shelvepath+'rc_ud_data');
@@ -36,45 +36,45 @@ matplotlib.rcParams['hatch.linewidth'] = 9.0; #set the hatch width to larger tha
 matplotlib.rcParams['hatch.color'] = 'black';
 matplotlib.pyplot.rc('font',weight='bold');
 
-
-# ##########################################################################################################################################################
-# ## Diff/Diff trials for current and previous, given response was the same, same shapes corresponding to response or not ##
-# ##########################################################################################################################################################
-
-fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Different/different trials, given response repetition, subject %s'%id, size = 22);
-c = (186/255.0,85/255.0,212/255.0);
-ax1.set_xlim([0.5,2.5]); ax1.set_xticks([1.0, 2.0]); ax1.set_ylim(600, 850); ax1.set_yticks(arange(650,851,50));
-ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Task',size=18);
-ax1.set_xticklabels(['Bottom Up','Top Down']);
-ax1.plot(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
-if id=='agg':
-    ax1.errorbar(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], \
-                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]], \
-        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
-ax1.plot(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
-if id=='agg':
-    ax1.errorbar(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], \
-                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]], \
-        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
-ax1.plot(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
-if id=='agg':
-    ax1.errorbar(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], \
-                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]], \
-        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
-ax1.plot(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
-if id=='agg':
-    ax1.errorbar(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], \
-                 yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]], \
-        [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
-ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
-ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
-ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
-dd1line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape repeated', alpha = 1.0);
-dd2line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape switched', alpha = 0.5);
-ax1.legend(handles=[dd1line, dd2line],loc = 1, ncol=1, fontsize = 18);
-show();
-
-1/0
+# 
+# # ##########################################################################################################################################################
+# # ## Diff/Diff trials for current and previous, given response was the same, same shapes corresponding to response or not ##
+# # ##########################################################################################################################################################
+# 
+# fig , ax1 = subplots(1,1,figsize = (12.8,7.64)); fig.suptitle('Different/different trials, given response repetition, subject %s'%id, size = 22);
+# c = (186/255.0,85/255.0,212/255.0);
+# ax1.set_xlim([0.5,2.5]); ax1.set_xticks([1.0, 2.0]); ax1.set_ylim(600, 850); ax1.set_yticks(arange(650,851,50));
+# ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Task',size=18);
+# ax1.set_xticklabels(['Bottom Up','Top Down']);
+# ax1.plot(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
+# if id=='agg':
+#     ax1.errorbar(0.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','same_shapes')], \
+#                  yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]], \
+#         [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
+# ax1.plot(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
+# if id=='agg':
+#     ax1.errorbar(1.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'b','incong_per_incong_resp','diff_shapes')], \
+#                  yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]], \
+#         [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
+# ax1.plot(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 1.0);
+# if id=='agg':
+#     ax1.errorbar(1.8, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','same_shapes')], \
+#                  yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]], \
+#         [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','same_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 1.0);
+# ax1.plot(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], color = c, markersize = 12.0, marker = 'o', alpha = 0.5);
+# if id=='agg':
+#     ax1.errorbar(2.2, db['%s_UD_%s_%s_currentandprevtype_same_response_%s_mean_rt'%(id,'t','incong_per_incong_resp','diff_shapes')], \
+#                  yerr = [[db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]], \
+#         [db['%s_UD_%s_%s_currentandprevtype_same_response_%s_rt_bs_sems'%(id,'t','incong_per_incong_resp','diff_shapes')]]], color = c,lw=6.0,capsize = 12, alpha = 0.5);
+# ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+# ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+# ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+# dd1line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape repeated', alpha = 1.0);
+# dd2line=mlines.Line2D([],[],color=(186/255.0,85/255.0,212/255.0),lw=6,label='Corresponding shape switched', alpha = 0.5);
+# ax1.legend(handles=[dd1line, dd2line],loc = 1, ncol=1, fontsize = 18);
+# show();
+# 
+# 1/0
 
 # ##########################################################################################################################################################
 # ## Previous trial type by response repetition for trial types that WEREN'T congruent ##
@@ -1405,147 +1405,147 @@ show();
 ## ##Number of Targets comparison, 1 vs. 2
 #########################################################################################################################################################
 
-colors=['dodgerblue','mediumpurple'];
-
-#do the bottom up and top down plots on separate subaxes
-fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
-#ax1 is the bottom up task plot
-ax1.set_ylim(500,900); ax1.set_yticks(arange(550,901,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
-ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax1.set_xticklabels(['1','2']); 
-ax1.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
-if id=='agg':
-    ax1.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
-    ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
-ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
-ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
-ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
-#ax2 is the top down version of the task
-ax2.set_ylim(500,900); ax2.set_yticks(arange(550,901,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
-ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax2.set_xticklabels(['1','2']); 
-ax2.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
-if id=='agg':
-    ax2.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
-    ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
-ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
-ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
-ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
-#save the labeled figure as a .png	
-filename = 'exp3_NT_bar_labelled';
-savefig(savepath+filename+'.png',dpi=400);
-#then get rid of labels and save as a .eps
-labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-ax1.set_xticklabels(labels);
-ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-ax1.set_ylabel(''); ax1.set_xlabel('');
-ax1.set_title('');
-labels = [item.get_text() for item in ax2.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-ax2.set_xticklabels(labels);
-ax2.set_yticklabels(['','','','','','','','','','','','','','']);
-ax2.set_ylabel(''); ax2.set_xlabel('');
-ax2.set_title('');
-fig.suptitle('');
-filename = 'exp3_NT_bar_naked';
-savefig(savepath+filename+'.eps',dpi=400);
-# show();
-show();
-
-
-## marker version of the nt plot
-
-#do the bottom up and top down plots on separate subaxes
-fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
-#ax1 is the bottom up task plot
-ax1.set_ylim(500,900); ax1.set_yticks(arange(550,901,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
-ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax1.set_xticklabels(['1','2']); 
-ax1.plot(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color=colors[0], markersize = 12.0, marker = 'o', alpha = 1.0);
-ax1.plot(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color=colors[1], markersize = 12.0, marker = 'o', alpha = 1.0);
-if id=='agg':
-    ax1.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]]],color=colors[0], lw=6.0,capsize = 12, alpha = 1.0);
-    ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]]],color=colors[1], lw=6.0,capsize = 12, alpha = 1.0);
-ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
-ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
-ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
-#ax2 is the top down version of the task
-ax2.set_ylim(500,900); ax2.set_yticks(arange(550,901,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
-ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax2.set_xticklabels(['1','2']); 
-ax2.plot(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color=colors[0], markersize = 12.0, marker = 'o', alpha = 1.0);
-ax2.plot(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color=colors[1], markersize = 12.0, marker = 'o', alpha = 1.0);
-if id=='agg':
-    ax2.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]]],color=colors[0], lw=6.0,capsize = 12, alpha = 1.0);
-    ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]]],color=colors[1], lw=6.0,capsize = 12, alpha = 1.0);
-ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
-ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
-ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
-#save the labeled figure as a .png	
-filename = 'exp3_NT_labelled';
-savefig(savepath+filename+'.png',dpi=400);
-#then get rid of labels and save as a .eps
-labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-ax1.set_xticklabels(labels);
-ax1.set_yticklabels(['','','','','','','','','','','','','','']);
-ax1.set_ylabel(''); ax1.set_xlabel('');
-ax1.set_title('');
-labels = [item.get_text() for item in ax2.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
-ax2.set_xticklabels(labels);
-ax2.set_yticklabels(['','','','','','','','','','','','','','']);
-ax2.set_ylabel(''); ax2.set_xlabel('');
-ax2.set_title('');
-fig.suptitle('');
-filename = 'exp3_NT_naked';
-savefig(savepath+filename+'.eps',dpi=400);
-# show();
-show();
-
-
-
-#do the bottom up and top down plots on separate subaxes
-fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Accuracy By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
-#ax1 is the bottom up task plot
-ax1.set_ylim(0.75, 1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
-ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax1.set_xticklabels(['1','2']); 
-ax1.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
-ax1.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
-if id=='agg':
-    ax1.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
-    ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
-ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
-ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
-ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
-#ax2 is the top down version of the task
-ax2.set_ylim(0.75, 1.0); ax2.set_yticks(arange(0.75,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
-ax2.set_ylabel('Proportion Correct',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
-ax2.set_xticklabels(['1','2']); 
-ax2.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
-ax2.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
-if id=='agg':
-    ax2.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
-    ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
-ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
-ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
-ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
-#save the labeled figure as a .png	
-# filename = '';
+# colors=['dodgerblue','mediumpurple'];
+# 
+# #do the bottom up and top down plots on separate subaxes
+# fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
+# #ax1 is the bottom up task plot
+# ax1.set_ylim(500,900); ax1.set_yticks(arange(550,901,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+# ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax1.set_xticklabels(['1','2']); 
+# ax1.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
+# ax1.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
+# if id=='agg':
+#     ax1.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
+#     ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
+# ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+# ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+# ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+# #ax2 is the top down version of the task
+# ax2.set_ylim(500,900); ax2.set_yticks(arange(550,901,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+# ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax2.set_xticklabels(['1','2']); 
+# ax2.bar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
+# ax2.bar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
+# if id=='agg':
+#     ax2.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
+#     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
+# ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+# ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+# ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+# #save the labeled figure as a .png	
+# filename = 'exp3_NT_bar_labelled';
 # savefig(savepath+filename+'.png',dpi=400);
-#then get rid of labels and save as a .eps
+# #then get rid of labels and save as a .eps
 # labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 # ax1.set_xticklabels(labels);
 # ax1.set_yticklabels(['','','','','','','','','','','','','','']);
 # ax1.set_ylabel(''); ax1.set_xlabel('');
+# ax1.set_title('');
 # labels = [item.get_text() for item in ax2.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
 # ax2.set_xticklabels(labels);
 # ax2.set_yticklabels(['','','','','','','','','','','','','','']);
 # ax2.set_ylabel(''); ax2.set_xlabel('');
-# filename = '';
+# ax2.set_title('');
+# fig.suptitle('');
+# filename = 'exp3_NT_bar_naked';
 # savefig(savepath+filename+'.eps',dpi=400);
+# # show();
 # show();
-show();
+# 
+# 
+# ## marker version of the nt plot
+# 
+# #do the bottom up and top down plots on separate subaxes
+# fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
+# #ax1 is the bottom up task plot
+# ax1.set_ylim(500,900); ax1.set_yticks(arange(550,901,50)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+# ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax1.set_xticklabels(['1','2']); 
+# ax1.plot(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],color=colors[0], markersize = 12.0, marker = 'o', alpha = 1.0);
+# ax1.plot(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],color=colors[1], markersize = 12.0, marker = 'o', alpha = 1.0);
+# if id=='agg':
+#     ax1.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',1)]]],color=colors[0], lw=6.0,capsize = 12, alpha = 1.0);
+#     ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'b',2)]]],color=colors[1], lw=6.0,capsize = 12, alpha = 1.0);
+# ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+# ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+# ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+# #ax2 is the top down version of the task
+# ax2.set_ylim(500,900); ax2.set_yticks(arange(550,901,50)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+# ax2.set_ylabel('Response time',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax2.set_xticklabels(['1','2']); 
+# ax2.plot(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],color=colors[0], markersize = 12.0, marker = 'o', alpha = 1.0);
+# ax2.plot(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],color=colors[1], markersize = 12.0, marker = 'o', alpha = 1.0);
+# if id=='agg':
+#     ax2.errorbar(1,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',1)]]],color=colors[0], lw=6.0,capsize = 12, alpha = 1.0);
+#     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_mean_rt'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_rt_bs_sems'%(id,'t',2)]]],color=colors[1], lw=6.0,capsize = 12, alpha = 1.0);
+# ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+# ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+# ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+# #save the labeled figure as a .png	
+# filename = 'exp3_NT_labelled';
+# savefig(savepath+filename+'.png',dpi=400);
+# #then get rid of labels and save as a .eps
+# labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+# ax1.set_xticklabels(labels);
+# ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+# ax1.set_ylabel(''); ax1.set_xlabel('');
+# ax1.set_title('');
+# labels = [item.get_text() for item in ax2.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+# ax2.set_xticklabels(labels);
+# ax2.set_yticklabels(['','','','','','','','','','','','','','']);
+# ax2.set_ylabel(''); ax2.set_xlabel('');
+# ax2.set_title('');
+# fig.suptitle('');
+# filename = 'exp3_NT_naked';
+# savefig(savepath+filename+'.eps',dpi=400);
+# # show();
+# show();
+# 
+# 
+# 
+# #do the bottom up and top down plots on separate subaxes
+# fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Accuracy By Number of Targets,\n Up-Down Task, Subject %s'%id, size = 22);
+# #ax1 is the bottom up task plot
+# ax1.set_ylim(0.75, 1.0); ax1.set_yticks(arange(0.75,1.01,0.05)); ax1.set_xlim([0.7,1.9]); ax1.set_xticks([1,1.6]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+# ax1.set_ylabel('Proportion Correct',size=18); ax1.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax1.set_xticklabels(['1','2']); 
+# ax1.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],color=colors[0], alpha = 1.0, width=0.4);
+# ax1.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],color=colors[1], alpha = 1.0, width=0.4);
+# if id=='agg':
+#     ax1.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'b',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',1)]]],color='black',lw=6.0);
+#     ax1.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'b',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'b',2)]]],color='black',lw=6.0);
+# ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+# ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+# ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+# #ax2 is the top down version of the task
+# ax2.set_ylim(0.75, 1.0); ax2.set_yticks(arange(0.75,1.01,0.05)); ax2.set_xlim([0.7,1.9]); ax2.set_xticks([1,1.6]); ax2.set_title('Top Down Task', size = 18, position = (.5, 0.9));
+# ax2.set_ylabel('Proportion Correct',size=18); ax2.set_xlabel('Number of targets',size=18); #,labelpad=40
+# ax2.set_xticklabels(['1','2']); 
+# ax2.bar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],color=colors[0], alpha = 1.0, width=0.4);
+# ax2.bar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],color=colors[1], alpha = 1.0, width=0.4);
+# if id=='agg':
+#     ax2.errorbar(1,db['%s_UD_%s_%s_targets_pc'%(id,'t',1)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',1)]]],color='black',lw=6.0);
+#     ax2.errorbar(1.6,db['%s_UD_%s_%s_targets_pc'%(id,'t',2)],yerr=[[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]],[db['%s_UD_%s_%s_targets_pc_bs_sems'%(id,'t',2)]]],color='black',lw=6.0);
+# ax2.spines['right'].set_visible(False); ax2.spines['top'].set_visible(False);
+# ax2.spines['bottom'].set_linewidth(2.0); ax2.spines['left'].set_linewidth(2.0);
+# ax2.yaxis.set_ticks_position('left'); ax2.xaxis.set_ticks_position('bottom');
+# #save the labeled figure as a .png	
+# # filename = '';
+# # savefig(savepath+filename+'.png',dpi=400);
+# #then get rid of labels and save as a .eps
+# # labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+# # ax1.set_xticklabels(labels);
+# # ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+# # ax1.set_ylabel(''); ax1.set_xlabel('');
+# # labels = [item.get_text() for item in ax2.get_xticklabels()]; labels[0]=''; labels[1]=''; #labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+# # ax2.set_xticklabels(labels);
+# # ax2.set_yticklabels(['','','','','','','','','','','','','','']);
+# # ax2.set_ylabel(''); ax2.set_xlabel('');
+# # filename = '';
+# # savefig(savepath+filename+'.eps',dpi=400);
+# # show();
+# show();
 
 
 #########################################################################################################################################################
@@ -1554,10 +1554,47 @@ show();
 
 colors = [(75/255.0,0/255.0,130/255.0),(105/255.0,84/255.0,184/255.0),(186/255.0,85/255.0,212/255.0)];
 
+fig = figure(figsize = (12.8,7.64)); ax1=gca();
+ax1.set_ylim(600,850); ax1.set_yticks(arange(650,851,50)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
+ax1.set_xticklabels(['CP/CR','IP/CR','IP/IR']); #['Congruent Percept\nCongruent Response','Incongruent Percept\nCongruent Response','Incongruent Percept\nIncongruent Response']
+ax1.plot(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],color=colors[0],markersize = 12.0, marker = 'o', alpha = 1.0);
+ax1.plot(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_cong_resp')],color=colors[1], markersize = 12.0, marker = 'o', alpha = 1.0);
+ax1.plot(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_incong_resp')],color=colors[2], markersize = 12.0, marker = 'o', alpha = 1.0);
+if id=='agg':
+    ax1.errorbar(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','cong_per_cong_resp')]]],color=colors[0], lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(1.6,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_cong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_cong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp')]]],color=colors[1], lw=6.0,capsize = 12, alpha = 1.0);
+    ax1.errorbar(2.2,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','incong_per_incong_resp')],yerr=[[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp')]],[db['%s_UD_%s_2_targets_%s_rt_bs_sems'%(id,'b','incong_per_incong_resp')]]],color=colors[2], lw=6.0,capsize = 12, alpha = 1.0);
+ax1.spines['right'].set_visible(False); ax1.spines['top'].set_visible(False);
+ax1.spines['bottom'].set_linewidth(2.0); ax1.spines['left'].set_linewidth(2.0);
+ax1.yaxis.set_ticks_position('left'); ax1.xaxis.set_ticks_position('bottom');
+#save the labeled figure as a .png	
+filename = 'exp3_congruency_BUONLY_labelled';
+savefig(savepath+filename+'.png',dpi=400);
+#then get rid of labels and save as a .eps
+labels = [item.get_text() for item in ax1.get_xticklabels()]; labels[0]=''; labels[1]=''; labels[2]=''; #have to do this to center the x ticks on correct spot without incurring ticks at every spot
+ax1.set_xticklabels(labels);
+ax1.set_yticklabels(['','','','','','','','','','','','','','']);
+ax1.set_ylabel(''); ax1.set_xlabel('');
+ax1.set_title('');
+fig.suptitle('');
+filename = 'exp3_congruency_BUONLY_naked';
+savefig(savepath+filename+'.eps',dpi=400);
+show();
+
+
+
+1/0
+
+
+
+
+
+
 
 #do the bottom up and top down plots on separate subaxes
 fig , (ax1, ax2) = subplots(1,2,figsize = (12.8,7.64)); fig.suptitle('Response Time By Congruency Conditions,\n Up-Down Task, Subject %s'%id, size = 22);
-ax1.set_ylim(500,900); ax1.set_yticks(arange(550,901,50)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
+ax1.set_ylim(600,850); ax1.set_yticks(arange(650,851,50)); ax1.set_xlim([0.7,2.5]); ax1.set_xticks([1,1.6,2.2]); ax1.set_title('Bottom Up Task', size = 18, position = (.5, 0.9));
 ax1.set_ylabel('Response time',size=18); ax1.set_xlabel('Condition',size=18);
 ax1.set_xticklabels(['CP/CR','IP/CR','IP/IR']); #['Congruent Percept\nCongruent Response','Incongruent Percept\nCongruent Response','Incongruent Percept\nIncongruent Response']
 ax1.plot(1,db['%s_UD_%s_2_targets_%s_mean_rt'%(id,'b','cong_per_cong_resp')],color=colors[0],markersize = 12.0, marker = 'o', alpha = 1.0);
@@ -1602,6 +1639,9 @@ fig.suptitle('');
 filename = 'exp3_congruency_naked';
 savefig(savepath+filename+'.eps',dpi=400);
 show();
+
+
+
 
 
 ###barplot version
